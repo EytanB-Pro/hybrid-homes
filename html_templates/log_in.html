@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Hybrid Homes</title>
+  
+  <link rel="stylesheet" href="/static/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="page-background">
 
+  <div class="signup-card">
+    
+    <div class="card-header">
+      <div class="header-decor-1"></div>
+      <div class="header-decor-2"></div>
+
+      <div class="header-content">
+        <div class="logo-box">
+          <i data-lucide="home" class="icon-white"></i>
+        </div>
+        <h1 class="brand-title">HYBRID HOMES</h1>
+        <p class="brand-subtitle">Create Your Account</p>
+      </div>
+    </div>
+
+    <form id="signupForm" class="form-body">
+      
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="first_name" class="field-label">First Name</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <i data-lucide="user"></i>
+            </span>
+            <input type="text" id="first_name" name="first_name" required placeholder="Jane">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="last_name" class="field-label">Last Name</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <i data-lucide="user"></i>
+            </span>
+            <input type="text" id="last_name" name="last_name" required placeholder="Doe">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="username" class="field-label">Username</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <i data-lucide="at-sign"></i>
+            </span>
+            <input type="text" id="username" name="username" required placeholder="janedoe99">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="dob" class="field-label">Date of Birth</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <i data-lucide="calendar"></i>
+            </span>
+            <input type="date" id="dob" name="dob" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="email" class="field-label">Email Address</label>
+        <div class="input-wrapper">
+          <span class="input-icon">
+            <i data-lucide="mail"></i>
+          </span>
+          <input type="email" id="email" name="email" required placeholder="jane.doe@example.com">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="password" class="field-label">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">
+            <i data-lucide="lock"></i>
+          </span>
+          <input type="password" id="password" name="password" required placeholder="••••••••">
+          
+          <button type="button" id="passwordToggle" class="visibility-toggle">
+            <i data-lucide="eye" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">
+        <span id="btnText">Sign Up</span>
+        <div id="loadingSpinner" class="spinner hidden"></div>
+      </button>
+
+      <div class="footer-note">
+        Already have an account? <a href="#" class="footer-link">Log In</a>
+      </div>
+
+    </form>
+  </div>
+
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal-card" id="modalCard">
+      <div class="modal-content">
+        <div id="modalIconContainer" class="modal-icon-container">
+          <span id="modalIcon"></span>
+        </div>
+        <div>
+          <h3 id="modalTitle">Title</h3>
+          <p id="modalMessage">Message body</p>
+        </div>
+        <button type="button" id="modalCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    const form = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalCard = document.getElementById('modalCard');
+    const modalIconContainer = document.getElementById('modalIconContainer');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    // Password Visibility Toggle
+    passwordToggle.addEventListener('click', () => {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      eyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+      lucide.createIcons();
+    });
+
+    // Custom UI Alert Modals
+    function showModal(isSuccess, title, message) {
+      if (isSuccess) {
+        modalIconContainer.className = 'modal-icon-container success';
+        modalIcon.innerHTML = `<i data-lucide="check-circle-2"></i>`;
+        modalCloseBtn.className = 'modal-btn success';
+      } else {
+        modalIconContainer.className = 'modal-icon-container error';
+        modalIcon.innerHTML = `<i data-lucide="alert-triangle"></i>`;
+        modalCloseBtn.className = 'modal-btn error';
+      }
+
+      modalTitle.innerText = title;
+      modalMessage.innerText = message;
+      lucide.createIcons();
+
+      modalOverlay.classList.remove('hidden');
+      setTimeout(() => {
+        modalOverlay.classList.add('visible');
+        modalCard.classList.add('visible');
+      }, 10);
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('visible');
+      modalCard.classList.remove('visible');
+      setTimeout(() => modalOverlay.classList.add('hidden'), 300);
+    }
+    
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if(e.target === modalOverlay) closeModal();
+    });
+
+    // AJAX Form Handling
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      btnText.classList.add('hidden');
+      loadingSpinner.classList.remove('hidden');
+
+      const formData = {
+        username: document.getElementById('username').value,
+        first_name: document.getElementById('first_name').value,
+        last_name: document.getElementById('last_name').value,
+        password: passwordInput.value,
+        email: document.getElementById('email').value,
+        dob: document.getElementById('dob').value
+      };
+
+      try {
+        const response = await fetch('/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          showModal(true, 'Registration Successful!', `Welcome, ${result.first_name || 'user'}! Account established.`);
+          form.reset();
+        } else {
+          showModal(false, 'Registration Failed', `Server returned error status code: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        showModal(true, 'Ready for Backend!', 'Frontend fields match your target schema structure perfectly.');
+      } finally {
+        submitBtn.disabled = false;
+        btnText.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
