@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hybrid Homes | Modern Sustainable Living</title>
+  <style>
+    /* Inserting your brand stylesheet tokens */
+    :root {
+      --green-50: #f0fdf4;
+      --green-100: #dcfce7;
+      --green-200: #bbf7d0;
+      --green-300: #86efac;
+      --green-400: #4ade80;
+      --green-500: #22c55e;
+      --green-600: #16a34a;
+      --green-700: #15803d;
+      --green-800: #166534;
+      --green-900: #14532d;
+
+      --white: #ffffff;
+      --bg-light: #f8fafc;
+      --bg-card: #ffffff;
+      --border-light: #e2e8f0;
+      --border-green: #d1fae5;
+
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --text-on-green: #ffffff;
+
+      --accent: #059669;
+      --error: #ef4444;
+      --error-bg: #fef2f2;
+      --success-bg: #f0fdf4;
+
+      --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.08);
+      --shadow-focus: 0 0 0 3px rgba(22, 163, 74, 0.25);
+
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-light: #0b1311;
+        --bg-card: #111d1a;
+        --border-light: #1f3530;
+        --border-green: #14352b;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --green-700: #10b981;
+        --green-800: #34d399;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--text-primary);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    h1 { font-size: 2.75rem; }
+    h2 { font-size: 2rem; border-bottom: 2px solid var(--border-green); padding-bottom: 0.5rem; }
+    h3 { font-size: 1.5rem; }
+
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--green-700);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--green-800);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Layout Components */
+    header.navbar {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--green-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--green-700);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 4rem 1.5rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+    }
+
+    /* Custom Segmented 3-Way Toggle */
+    .toggle-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0 3.5rem;
+    }
+
+    .segmented-control {
+      display: flex;
+      background-color: var(--bg-card);
+      padding: 0.35rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+      z-index: 2;
+    }
+
+    .toggle-btn.active {
+      color: var(--white);
+      background-color: var(--green-700);
+    }
+
+    /* Dynamic Content Sections */
+    .toggle-section {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .toggle-section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Professional Grid Cards */
+    .grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--green-200);
+    }
+
+    .card-img-container {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      background-color: var(--green-50);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .card:hover .card-img {
+      transform: scale(1.03);
+    }
+
+    .card-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-success {
+      background-color: var(--green-100);
+      color: var(--green-800);
+    }
+
+    .card-price {
+      font-weight: 700;
+      color: var(--green-700);
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .btn-primary {
+      background-color: var(--green-700);
+      color: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--green-800);
+    }
+
+    .alert {
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--green-700);
+      background-color: var(--success-bg);
+      color: var(--green-900);
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background-color: var(--bg-card);
+      border-top: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-top: 5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="logo">✦ <span>Hybrid Homes</span></div>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active">Home</a></li>
+      <li><a href="#" class="nav-link">Explore</a></li>
+      <li><a href="#" class="nav-link">Our Technology</a></li>
+    </ul>
+  </header>
+
+  <main class="container">
+    <!-- Hero Header -->
+    <section class="hero">
+      <h1>Evolved Architectural Living</h1>
+      <p>Precision engineering meets sustainable luxury. Choose how you want to experience your next permanent structure.</p>
+    </section>
+
+    <!-- The 3-Way Mode Toggle -->
+    <div class="toggle-wrapper">
+      <div class="segmented-control">
+        <button class="toggle-btn active" onclick="switchMode('buy')">Buy Architecture</button>
+        <button class="toggle-btn" onclick="switchMode('rent')">Rent Ecosystems</button>
+        <button class="toggle-btn" onclick="switchMode('hybrid')">Try Before You Buy</button>
+      </div>
+    </div>
+
+    <!-- BUY SECTION -->
+    <div id="section-buy" class="toggle-section active-section">
+      <h2>Permanent Ownership</h2>
+      <p>Invest in engineered premium modular homes featuring net-zero footprints and luxury architectural configurations.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://www.stillwaterdwellings.com/wp-content/uploads/2024/02/The-Modern-Marvel-of-Luxury-Modular-Homes-Ohio.jpg" alt="Modern Hybrid Estate" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Pre-engineered</span>
+              <span class="card-price">$640,000</span>
+            </div>
+            <h3>The Lumina Estate</h3>
+            <p>A sprawling multi-tiered glass and stone footprint designed for optimal solar collection and expansive open-plan luxury living.</p>
+            <button class="btn btn-primary">Configure Custom Build</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg" alt="Minimalist Nordic Pavilion" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Eco-Focus</span>
+              <span class="card-price">$420,000</span>
+            </div>
+            <h3>Nordic Pavilion V2</h3>
+            <p>Compact Scandinavian simplicity matching blackened premium timber structures with high-efficiency floor-to-ceiling thermal barriers.</p>
+            <button class="btn btn-primary">Configure Custom Build</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RENT SECTION -->
+    <div id="section-rent" class="toggle-section">
+      <h2>Curated Micro-Leasing</h2>
+      <p>Flexible long-term leases on fully integrated Hybrid models positioned in isolated premium landscapes.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://static.wixstatic.com/media/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg/v1/fill/w_1000,h_746,al_c,q_85,usm_0.66_1.00_0.01/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg" alt="Interior Architecture Living" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Fully Furnished</span>
+              <span class="card-price">$3,800 / mo</span>
+            </div>
+            <h3>The Meridian Oasis</h3>
+            <p>Experience urban minimalist interior design merged with structural environmental independence. Available for 6–24 month leases.</p>
+            <button class="btn btn-primary">Check Availability</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HYBRID SECTION -->
+    <div id="section-hybrid" class="toggle-section">
+      <div class="alert">
+        <strong>The Ultimate Transition:</strong> Stay up to 30 days. If you buy, 100% of your stay fees credit directly toward your down payment.
+      </div>
+      <h2>Try Before You Buy Forever</h2>
+      <p>Don't commit blindly. Move your lifestyle directly into a finished Hybrid installation to experience the smart grid framework firsthand.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://www.stillwaterdwellings.com/wp-content/uploads/2024/02/The-Modern-Marvel-of-Luxury-Modular-Homes-Ohio.jpg" alt="Lumina Estate Trial" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Trial Experience</span>
+              <span class="card-price">$250 / night</span>
+            </div>
+            <h3>Lumina Living Experience</h3>
+            <p>Test drive the home's smart automation, off-grid energy storage profiles, and structural airflow configurations for a weekend or a month.</p>
+            <button class="btn btn-primary">Book Trial Residence</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg" alt="Nordic Pavilion Trial" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Trial Experience</span>
+              <span class="card-price">$180 / night</span>
+            </div>
+            <h3>Nordic Rest Test</h3>
+            <p>Immerse yourself completely within our high-performance off-grid timber escape and experience true physical insulation properties.</p>
+            <button class="btn btn-primary">Book Trial Residence</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Hybrid Homes Architectural Systems. All rights reserved.</p>
+  </footer>
+
+  <!-- Simple Toggling Control Mechanism -->
+  <script>
+    function switchMode(mode) {
+      // Manage Active Buttons
+      const buttons = document.querySelectorAll('.toggle-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Manage Section Visibility
+      const sections = document.querySelectorAll('.toggle-section');
+      sections.forEach(sec => sec.classList.remove('active-section'));
+      
+      document.getElementById('section-' + mode).classList.add('active-section');
+    }
+  </script>
+</body>
+</html>

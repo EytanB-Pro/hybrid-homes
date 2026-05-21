@@ -11,6 +11,10 @@ db.init_app(app)
 def signup_page():
     return render_template("log_in.html")
 
+@app.route("/", methods=["GET"])
+def home_page():
+    return render_template("home_page.html")
+
 @app.route("/signup", methods=["POST"])
 def add_user():
     if request.is_json:
