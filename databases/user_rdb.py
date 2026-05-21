@@ -13,7 +13,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     dob = db.Column(db.Date, nullable=False)
     verified = db.Column(db.Boolean, default=False)
-    deleted = db.Column(db.Boolean, default=False)
 
     def __init__(self, username, first_name, last_name, password, email, dob):
         self.username = username

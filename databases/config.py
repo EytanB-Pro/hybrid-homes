@@ -1,5 +1,6 @@
 import os
 
+# Establish Directory
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class DevConfig:
