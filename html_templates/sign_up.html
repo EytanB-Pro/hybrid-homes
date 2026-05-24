@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Homes - Sign Up</title>
+    <title>Hybrid Homes - Sign In</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     
     <style>
-        /* Centering the registration card perfectly on the screen */
+        /* Centering the registration/login card perfectly on the screen */
         .auth-wrapper {
             display: flex;
             justify-content: center;
@@ -22,7 +22,6 @@
         .hidden {
             display: none;
         }
-        /* Style for the footer switch link inside the card */
         .auth-footer-link {
             text-align: center;
             margin-top: 1.5rem;
@@ -37,41 +36,24 @@
             🌱 <span>HYBRID-HOMES</span>
         </div>
         <ul class="nav-links">
-            <li><a href="/signup" class="nav-link active">Sign Up</a></li>
-            <li><a href="/signin" class="nav-link">Sign In</a></li>
+            <li><a href="/signup" class="nav-link">Sign Up</a></li>
+            <li><a href="/signin" class="nav-link active">Sign In</a></li>
         </ul>
     </header>
 
     <div class="container auth-wrapper">
         <div class="card auth-card">
-            <h2 class="card-title">Create Account</h2>
-            <p>Please fill out the form below to register your account.</p>
+            <h2 class="card-title">Welcome Back</h2>
+            <p>Please enter your credentials to access your account.</p>
 
             <div id="errorAlert" class="alert alert-danger hidden"></div>
             <div id="successAlert" class="alert hidden"></div>
 
-            <form id="signupForm" action="/signup" method="POST">
+            <form id="signinForm" action="/signin" method="POST">
                 
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0;">
-                    <div class="form-group">
-                        <label class="form-label" for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="John" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Doe" required>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label class="form-label" for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="johndoe123" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+                    <label class="form-label" for="username_or_email">Username or Email Address</label>
+                    <input type="text" id="username_or_email" name="username_or_email" class="form-control" placeholder="johndoe123 or john@example.com" required>
                 </div>
 
                 <div class="form-group">
@@ -79,17 +61,12 @@
                     <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="dob">Date of Birth (optional)</label>
-                    <input type="date" id="dob" name="dob" class="form-control">
-                </div>
-
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                    Register Account
+                    Sign In
                 </button>
 
                 <div class="auth-footer-link">
-                    Already have an account? <a href="/signin">Sign in here</a>.
+                    Don't have an account? <a href="/signup">Create one here</a>.
                 </div>
             </form>
         </div>
@@ -100,7 +77,7 @@
     </footer>
 
     <script>
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        document.getElementById('signinForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const errorAlert = document.getElementById('errorAlert');
@@ -122,7 +99,7 @@
 
             try {
                 // Post to your active Flask endpoint using JSON parsing format
-                const response = await fetch('/signup', {
+                const response = await fetch('/signin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -137,11 +114,17 @@
                     throw new Error(result.error || 'An unexpected error occurred.');
                 }
 
-                // Success visual change
-                successAlert.innerText = `${result.message}! (User ID: ${result.user_id})`;
+                // Success response state handling
+                successAlert.innerText = `${result.message}! Redirecting...`;
                 successAlert.classList.remove('hidden');
                 successAlert.classList.add('alert-success');
+                
                 form.reset(); // Clear form fields
+
+                // Optional: Redirect user to homepage or user profile after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = `/get_user/${result.user.username}`;
+                }, 1500);
 
             } catch (err) {
                 // Populate error banner

@@ -14,6 +14,17 @@ class User(db.Model):
     dob = db.Column(db.Date, nullable=True)
     verified = db.Column(db.Boolean, default=False)
     deleted = db.Column(db.Boolean, default=False)
+    posts = db.relationship("Post", backref="author", lazy=True)
+
+
+class Post(db.Model):
+    __tablename__ = "posts"
+    post_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), db.ForeignKey("users.username"), nullable=False)
+    address_line1 = db.Column(db.String(200), nullable=False)
+    address_line2 = db.Column(db.String(200), nullable=True)
+    city = db.Column(db.String(100), nullable=False)
+    images = db.Column(db.String(500), nullable=True)
 
     def __init__(self, username, first_name, last_name, password, email, dob):
         self.username = username

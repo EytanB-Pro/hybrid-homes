@@ -1,0 +1,21 @@
+{
+    "id": "c573ca38-20da-4efc-9938-2dea40b59eb0",
+    "address_line1": "5030 Rosewood Ave",
+    "address_line2": "",
+    "city": "Los Angeles",
+    "state": "California ",
+    "zip_code": "90004",
+    "price": 1500000.0,
+    "square_footage": 15000,
+    "num_bedrooms": 5,
+    "num_bathrooms": 3.0,
+    "year_built": 2005,
+    "property_type": "House",
+    "listing_type": "For Sale",
+    "description": "This is my house ",
+    "images": [
+        "c014b8ae-aa10-4380-8179-a1a08d9ef45f_Screenshot_2026-05-24_at_7.57.22_AM.png",
+        "c93e78ec-20b9-4e6e-a126-86e7401eed8c_Screenshot_2026-05-24_at_7.57.28_AM.png",
+        "e17a9a91-15a1-4227-91bf-3af07ef5527c_Screenshot_2026-05-24_at_7.58.15_AM.png"
+    ]
+}
