@@ -172,7 +172,7 @@
 
     /* --- SEARCH COMPONENT SYSTEM --- */
     .search-section {
-      max-width: 760px;
+      max-width: 820px;
       margin: 0 auto 2.5rem;
       padding: 0 1rem;
     }
@@ -185,7 +185,7 @@
       box-shadow: var(--shadow-md);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
       transition: var(--transition);
     }
 
@@ -199,11 +199,12 @@
       display: flex;
       align-items: center;
       padding-left: 0.75rem;
+      min-width: 0; /* Prevents text elements from blowing out container widths */
     }
 
     .search-icon {
       color: var(--text-muted);
-      margin-right: 0.5rem;
+      margin-right: 0.65rem;
       flex-shrink: 0;
     }
 
@@ -215,15 +216,25 @@
       font-family: var(--font-sans);
       font-size: 1rem;
       color: var(--text-primary);
+      min-width: 50px; /* Allows the input to safely shrink without breaking container */
     }
 
     .main-search-input::placeholder {
       color: var(--text-muted);
     }
 
+    /* Custom visual vertical divider between search methods */
+    .search-divider {
+      width: 1px;
+      height: 28px;
+      background-color: var(--border-light);
+      flex-shrink: 0;
+    }
+
     /* Image Search Dropzone Feature */
     .image-search-wrapper {
       position: relative;
+      flex-shrink: 0; /* Ensures the image search button stays structural size */
     }
 
     .image-search-label {
@@ -239,6 +250,7 @@
       font-size: 0.875rem;
       font-weight: 600;
       transition: var(--transition);
+      white-space: nowrap;
     }
 
     .image-search-label:hover {
@@ -319,13 +331,14 @@
       display: flex;
       align-items: center;
       gap: 0.25rem;
+      flex-shrink: 0;
     }
 
     .search-submit-btn:hover {
       background-color: var(--green-800);
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .search-container {
         flex-direction: column;
         align-items: stretch;
@@ -333,11 +346,14 @@
         border-radius: var(--radius-lg);
       }
       .text-search-wrapper {
-        padding: 0.5rem 0;
+        padding: 0.5rem 0 0.25rem 0;
+      }
+      .search-divider {
+        display: none; /* Drop divider on mobile stack */
       }
       .image-search-label {
         justify-content: center;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
       }
       .search-submit-btn {
         justify-content: center;
@@ -545,7 +561,6 @@
 </head>
 <body>
 
-  <!-- Navigation Header -->
   <header class="navbar">
     <a href="/" class="logo">
       ✦ <span>Hybrid Homes</span>
@@ -560,17 +575,14 @@
   </header>
 
   <main class="container">
-    <!-- Hero Header -->
     <section class="hero">
       <h1>Evolved Architectural Living</h1>
       <p>Precision engineering meets sustainable luxury. Browse through our flexible infrastructure frameworks tailored to your specific situational needs.</p>
     </section>
 
-    <!-- CREATIVE DUAL MULTI-SEARCH SYSTEM -->
     <section class="search-section">
       <form id="hybridSearchForm" onsubmit="executeSearch(event)">
         <div class="search-container">
-          <!-- Text Query Side -->
           <div class="text-search-wrapper">
             <span class="search-icon">
               <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -578,7 +590,8 @@
             <input type="text" class="main-search-input" id="textSearchInput" placeholder="Search by layout, keywords, styles, or structural footprints...">
           </div>
           
-          <!-- Image Search Upload Field -->
+          <div class="search-divider"></div>
+
           <div class="image-search-wrapper">
             <label for="imageSearchInput" class="image-search-label" title="Upload architectural inspiration photo to scan matches">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><circle cx="12" cy="13" r="3"></circle></svg>
@@ -587,11 +600,9 @@
             <input type="file" id="imageSearchInput" class="file-input" accept="image/*" onchange="handleImageUpload(event)">
           </div>
 
-          <!-- Master Action Activation Control -->
           <button type="submit" class="search-submit-btn">Search</button>
         </div>
 
-        <!-- Selected Image Status Output HUD -->
         <div class="file-status-bar" id="fileStatusBar">
           <div class="file-status-info">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--green-600);"><path d="M5 13l4 4L19 7"></path></svg>
@@ -602,7 +613,6 @@
       </form>
     </section>
 
-    <!-- 4-Way Mode Toggle Selection Grid -->
     <div class="toggle-wrapper">
       <div class="segmented-control">
         <button class="toggle-btn active" onclick="switchMode(event, 'realestate')">Purchasing & Leasing</button>
@@ -612,7 +622,6 @@
       </div>
     </div>
 
-    <!-- 1. PURCHASING & LEASING SECTION -->
     <div id="section-realestate" class="toggle-section active-section">
       <div class="section-intro-box">
         <p><strong>What this option is for:</strong> Long-term primary residency solutions. Designed for users looking to permanently purchase engineered modular smart-homes or establish traditional long-term multi-year lease portfolios.</p>
@@ -654,7 +663,6 @@
       </div>
     </div>
 
-    <!-- 2. TRY BEFORE YOU BUY SECTION -->
     <div id="section-trybeforebuy" class="toggle-section">
       <div class="section-intro-box">
         <p><strong>What this option is for:</strong> Risk-mitigation for prospective buyers. Schedule a short experimental trial stay or visit inside a fully functional prototype model. If you proceed with a final home purchase, 100% of your reservation fees apply directly to your contract down payment.</p>
@@ -700,7 +708,6 @@
       </div>
     </div>
 
-    <!-- 3. SHORT TERM RENTALS SECTION -->
     <div id="section-shortterm" class="toggle-section">
       <div class="section-intro-box">
         <p><strong>What this option is for:</strong> Leisure traveling and eco-tourism. Book standard temporary vacation stays inside premium, self-sustaining modular models located in breathtaking, remote geographical landscapes.</p>
@@ -727,7 +734,6 @@
       </div>
     </div>
 
-    <!-- 4. EVENT SPACING SECTION -->
     <div id="section-events" class="toggle-section">
       <div class="section-intro-box">
         <p><strong>What this option is for:</strong> Commercial and collaborative bookings. Rent scalable, wide-open architectural layouts optimized for corporate summits, private culinary events, galleries, workshops, or environmental exhibitions.</p>
@@ -802,7 +808,6 @@
         return;
       }
 
-      // Placeholder logic for routing parameters
       let message = "Initiating Hybrid Engine Search Execution:\n";
       if(textQuery) message += `- Parsing Text Query: "${textQuery}"\n`;
       if(imageFile) message += `- Scanning Spatial Semantics on file: ${imageFile.name}`;
