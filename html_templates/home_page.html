@@ -161,7 +161,6 @@
       color: var(--green-700);
     }
 
-    /* Specialized Call-to-Action Link for Selling */
     .nav-cta {
       color: var(--green-700);
       border: 1px solid var(--green-600);
@@ -188,7 +187,7 @@
       color: var(--text-secondary);
     }
 
-    /* Custom Segmented 3-Way Toggle */
+    /* Custom Segmented 4-Way Toggle */
     .toggle-wrapper {
       display: flex;
       justify-content: center;
@@ -197,12 +196,20 @@
 
     .segmented-control {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       background-color: var(--bg-card);
       padding: 0.35rem;
       border-radius: var(--radius-full);
       border: 1px solid var(--border-light);
       box-shadow: var(--shadow-sm);
-      position: relative;
+      gap: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .segmented-control {
+        border-radius: var(--radius-lg);
+      }
     }
 
     .toggle-btn {
@@ -215,12 +222,26 @@
       cursor: pointer;
       border-radius: var(--radius-full);
       transition: var(--transition);
-      z-index: 2;
     }
 
     .toggle-btn.active {
       color: var(--white);
       background-color: var(--green-700);
+    }
+
+    /* Section Explicit Purpose Introductions */
+    .section-intro-box {
+      background-color: var(--bg-card);
+      border-left: 4px solid var(--green-500);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-intro-box p {
+      margin-bottom: 0;
+      font-size: 1.05rem;
     }
 
     /* Dynamic Content Sections */
@@ -365,14 +386,18 @@
 </head>
 <body>
 
-  <!-- Navigation -->
+
+<!-- Navigation Header -->
   <header class="navbar">
-    <div class="logo">✦ <span>Hybrid Homes</span></div>
+    <!-- Clickable Logo linking to the root directory -->
+    <a href="/" class="logo" style="text-decoration: none; color: var(--green-700); display: flex; align-items: center; gap: 0.5rem;">
+      ✦ <span>Hybrid Homes</span>
+    </a>
+    
     <ul class="nav-links">
-      <li><a href="#" class="nav-link active">Home</a></li>
+      <li><a href="/" class="nav-link active">Home</a></li>
       <li><a href="#" class="nav-link">Explore</a></li>
       <li><a href="#" class="nav-link">Our Technology</a></li>
-      <!-- Added Become a Seller Link -->
       <li><a href="#" class="nav-link nav-cta" onclick="handleSellerRedirect(event)">Become a Seller Today</a></li>
     </ul>
   </header>
@@ -381,21 +406,26 @@
     <!-- Hero Header -->
     <section class="hero">
       <h1>Evolved Architectural Living</h1>
-      <p>Precision engineering meets sustainable luxury. Choose how you want to experience your next permanent structure.</p>
+      <p>Precision engineering meets sustainable luxury. Browse through our flexible infrastructure frameworks tailored to your specific situational needs.</p>
     </section>
 
-    <!-- The 3-Way Mode Toggle -->
+    <!-- The Updated 4-Way Mode Toggle -->
     <div class="toggle-wrapper">
       <div class="segmented-control">
-        <button class="toggle-btn active" onclick="switchMode('buy')">Buy Architecture</button>
-        <button class="toggle-btn" onclick="switchMode('rent')">Rent Ecosystems</button>
-        <button class="toggle-btn" onclick="switchMode('hybrid')">Try Before You Buy</button>
+        <button class="toggle-btn active" onclick="switchMode(event, 'realestate')">Purchasing & Leasing</button>
+        <button class="toggle-btn" onclick="switchMode(event, 'trybeforebuy')">Try Before You Buy</button>
+        <button class="toggle-btn" onclick="switchMode(event, 'shortterm')">Short-Term Rentals</button>
+        <button class="toggle-btn" onclick="switchMode(event, 'events')">Event Spacing</button>
       </div>
     </div>
 
-    <!-- BUY SECTION -->
-    <div id="section-buy" class="toggle-section active-section">
-      <h2>Permanent Ownership</h2>
+    <!-- 1. PURCHASING & LEASING SECTION -->
+    <div id="section-realestate" class="toggle-section active-section">
+      <div class="section-intro-box">
+        <p><strong>What this option is for:</strong> Long-term primary residency solutions. Designed for users looking to permanently purchase engineered modular smart-homes or establish traditional long-term multi-year lease portfolios.</p>
+      </div>
+      
+      <h2>Home Purchasing & Long-Term Leasing</h2>
       <p>Invest in engineered premium modular homes featuring net-zero footprints and luxury architectural configurations.</p>
       
       <div class="grid">
@@ -405,7 +435,7 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <span class="badge badge-success">Pre-engineered</span>
+              <span class="badge badge-success">For Sale</span>
               <span class="card-price">$640,000</span>
             </div>
             <h3>The Lumina Estate</h3>
@@ -420,47 +450,29 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <span class="badge badge-success">Eco-Focus</span>
-              <span class="card-price">$420,000</span>
+              <span class="badge badge-success">Long Lease</span>
+              <span class="card-price">$4,200 / mo</span>
             </div>
             <h3>Nordic Pavilion V2</h3>
             <p>Compact Scandinavian simplicity matching blackened premium timber structures with high-efficiency floor-to-ceiling thermal barriers.</p>
-            <button class="btn btn-primary">Configure Custom Build</button>
+            <button class="btn btn-primary">Apply to Lease</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- RENT SECTION -->
-    <div id="section-rent" class="toggle-section">
-      <h2>Curated Micro-Leasing</h2>
-      <p>Flexible long-term leases on fully integrated Hybrid models positioned in isolated premium landscapes.</p>
-      
-      <div class="grid">
-        <div class="card">
-          <div class="card-img-container">
-            <img src="https://static.wixstatic.com/media/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg/v1/fill/w_1000,h_746,al_c,q_85,usm_0.66_1.00_0.01/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg" alt="Interior Architecture Living" class="card-img">
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-success">Fully Furnished</span>
-              <span class="card-price">$3,800 / mo</span>
-            </div>
-            <h3>The Meridian Oasis</h3>
-            <p>Experience urban minimalist interior design merged with structural environmental independence. Available for 6–24 month leases.</p>
-            <button class="btn btn-primary">Check Availability</button>
-          </div>
-        </div>
+    <!-- 2. TRY BEFORE YOU BUY SECTION -->
+    <div id="section-trybeforebuy" class="toggle-section">
+      <div class="section-intro-box">
+        <p><strong>What this option is for:</strong> Risk-mitigation for prospective buyers. Schedule a short experimental trial stay or visit inside a fully functional prototype model. If you proceed with a final home purchase, 100% of your reservation fees apply directly to your contract down payment.</p>
       </div>
-    </div>
 
-    <!-- HYBRID SECTION -->
-    <div id="section-hybrid" class="toggle-section">
       <div class="alert">
-        <strong>The Ultimate Transition:</strong> Stay up to 30 days. If you buy, 100% of your stay fees credit directly toward your down payment.
+        <strong>The Ultimate Transition:</strong> Stay up to 30 days. Experience the structural framework firsthand before making a permanent asset commitment.
       </div>
-      <h2>Try Before You Buy Forever</h2>
-      <p>Don't commit blindly. Move your lifestyle directly into a finished Hybrid installation to experience the smart grid framework firsthand.</p>
+
+      <h2>Try Before You Buy Experiences</h2>
+      <p>Don't commit blindly. Move your lifestyle directly into a finished Hybrid installation to experience our off-grid systems firsthand.</p>
       
       <div class="grid">
         <div class="card">
@@ -469,7 +481,7 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <span class="badge badge-success">Trial Experience</span>
+              <span class="badge badge-success">Trial Residence</span>
               <span class="card-price">$250 / night</span>
             </div>
             <h3>Lumina Living Experience</h3>
@@ -484,12 +496,66 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <span class="badge badge-success">Trial Experience</span>
+              <span class="badge badge-success">Trial Residence</span>
               <span class="card-price">$180 / night</span>
             </div>
             <h3>Nordic Rest Test</h3>
             <p>Immerse yourself completely within our high-performance off-grid timber escape and experience true physical insulation properties.</p>
             <button class="btn btn-primary">Book Trial Residence</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SHORT TERM RENTALS SECTION -->
+    <div id="section-shortterm" class="toggle-section">
+      <div class="section-intro-box">
+        <p><strong>What this option is for:</strong> Leisure traveling and eco-tourism. Book standard temporary vacation stays inside premium, self-sustaining modular models located in breathtaking, remote geographical landscapes.</p>
+      </div>
+
+      <h2>Curated Short-Term Rentals</h2>
+      <p>Flexible short-term getaways combining radical environmental autonomy with luxury minimalist resort amenities.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://static.wixstatic.com/media/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg/v1/fill/w_1000,h_746,al_c,q_85,usm_0.66_1.00_0.01/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg" alt="Interior Architecture Living" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Vacation Stay</span>
+              <span class="card-price">$310 / night</span>
+            </div>
+            <h3>The Meridian Oasis</h3>
+            <p>Experience urban minimalist interior design merged with structural environmental independence. Positioned deep in remote canyon ecosystems.</p>
+            <button class="btn btn-primary">Check Vacation Availability</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. EVENT SPACING SECTION -->
+    <div id="section-events" class="toggle-section">
+      <div class="section-intro-box">
+        <p><strong>What this option is for:</strong> Commercial and collaborative bookings. Rent scalable, wide-open architectural layouts optimized for corporate summits, private culinary events, galleries, workshops, or environmental exhibitions.</p>
+      </div>
+
+      <h2>Sustainable Event Spacing</h2>
+      <p>Host dynamic gatherings in high-capacity, climate-controlled environmental pavilions equipped with comprehensive tech integrations.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-img-container">
+            <img src="https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg" alt="Event Pavilion" class="card-img">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-success">Commercial Use</span>
+              <span class="card-price">$1,200 / day</span>
+            </div>
+            <h3>The Nexus Pavilion</h3>
+            <p>An expansive, hyper-configurable open hall featuring variable atmospheric controls, surround-acoustics, and automated solar shading arrays.</p>
+            <button class="btn btn-primary">Reserve Venue Block</button>
           </div>
         </div>
       </div>
@@ -501,11 +567,13 @@
   </footer>
 
   <script>
-    // Simple Mode Toggling
-    function switchMode(mode) {
+    // Mode Toggling with clean Event target context parsing
+    function switchMode(event, mode) {
       const buttons = document.querySelectorAll('.toggle-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      
+      // Select correct element target dynamically
+      event.currentTarget.classList.add('active');
 
       const sections = document.querySelectorAll('.toggle-section');
       sections.forEach(sec => sec.classList.remove('active-section'));
@@ -513,12 +581,10 @@
       document.getElementById('section-' + mode).classList.add('active-section');
     }
 
-    // Logic for Route Authentication Check
+    // Route Authentication Check logic
     function handleSellerRedirect(event) {
-      event.preventDefault(); // Stop default empty href link action
+      event.preventDefault();
       
-      // PLACEHOLDER: Replace this boolean with your application's actual auth state 
-      // (e.g., checking localStorage, token existence, or hitting an internal state variable)
       const isLoggedIn = false; 
 
       if (isLoggedIn) {
