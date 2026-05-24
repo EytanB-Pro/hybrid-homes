@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hybrid Homes | Modern Sustainable Living</title>
   <style>
-    /* Inserting your brand stylesheet tokens */
+    /* Brand design tokens - Forced to Light Theme standard permanently */
     :root {
       --green-50: #f0fdf4;
       --green-100: #dcfce7;
@@ -48,23 +48,6 @@
       --shadow-focus: 0 0 0 3px rgba(22, 163, 74, 0.25);
 
       --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-light: #0b1311;
-        --bg-card: #111d1a;
-        --border-light: #1f3530;
-        --border-green: #14352b;
-        --text-primary: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --text-muted: #94a3b8;
-        --green-700: #10b981;
-        --green-800: #34d399;
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-      }
     }
 
     *, *::before, *::after {
@@ -386,10 +369,9 @@
 </head>
 <body>
 
-
-<!-- Navigation Header -->
+  <!-- Navigation Header -->
   <header class="navbar">
-    <!-- Clickable Logo linking to the root directory -->
+    <!-- Clickable Logo linking back to homepage path -->
     <a href="/" class="logo" style="text-decoration: none; color: var(--green-700); display: flex; align-items: center; gap: 0.5rem;">
       ✦ <span>Hybrid Homes</span>
     </a>
@@ -409,7 +391,7 @@
       <p>Precision engineering meets sustainable luxury. Browse through our flexible infrastructure frameworks tailored to your specific situational needs.</p>
     </section>
 
-    <!-- The Updated 4-Way Mode Toggle -->
+    <!-- 4-Way Mode Toggle Selection Grid -->
     <div class="toggle-wrapper">
       <div class="segmented-control">
         <button class="toggle-btn active" onclick="switchMode(event, 'realestate')">Purchasing & Leasing</button>
@@ -567,12 +549,11 @@
   </footer>
 
   <script>
-    // Mode Toggling with clean Event target context parsing
+    // Tab switching controls
     function switchMode(event, mode) {
       const buttons = document.querySelectorAll('.toggle-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
       
-      // Select correct element target dynamically
       event.currentTarget.classList.add('active');
 
       const sections = document.querySelectorAll('.toggle-section');
@@ -581,7 +562,7 @@
       document.getElementById('section-' + mode).classList.add('active-section');
     }
 
-    // Route Authentication Check logic
+    // Role filtering router logic
     function handleSellerRedirect(event) {
       event.preventDefault();
       
