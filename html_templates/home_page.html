@@ -149,6 +149,7 @@
       display: flex;
       gap: 1.5rem;
       list-style: none;
+      align-items: center;
     }
 
     .nav-link {
@@ -158,6 +159,20 @@
 
     .nav-link:hover, .nav-link.active {
       color: var(--green-700);
+    }
+
+    /* Specialized Call-to-Action Link for Selling */
+    .nav-cta {
+      color: var(--green-700);
+      border: 1px solid var(--green-600);
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+    }
+
+    .nav-cta:hover {
+      background-color: var(--green-700);
+      color: var(--white);
     }
 
     /* Hero Section */
@@ -357,6 +372,8 @@
       <li><a href="#" class="nav-link active">Home</a></li>
       <li><a href="#" class="nav-link">Explore</a></li>
       <li><a href="#" class="nav-link">Our Technology</a></li>
+      <!-- Added Become a Seller Link -->
+      <li><a href="#" class="nav-link nav-cta" onclick="handleSellerRedirect(event)">Become a Seller Today</a></li>
     </ul>
   </header>
 
@@ -483,19 +500,32 @@
     <p>&copy; 2026 Hybrid Homes Architectural Systems. All rights reserved.</p>
   </footer>
 
-  <!-- Simple Toggling Control Mechanism -->
   <script>
+    // Simple Mode Toggling
     function switchMode(mode) {
-      // Manage Active Buttons
       const buttons = document.querySelectorAll('.toggle-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
 
-      // Manage Section Visibility
       const sections = document.querySelectorAll('.toggle-section');
       sections.forEach(sec => sec.classList.remove('active-section'));
       
       document.getElementById('section-' + mode).classList.add('active-section');
+    }
+
+    // Logic for Route Authentication Check
+    function handleSellerRedirect(event) {
+      event.preventDefault(); // Stop default empty href link action
+      
+      // PLACEHOLDER: Replace this boolean with your application's actual auth state 
+      // (e.g., checking localStorage, token existence, or hitting an internal state variable)
+      const isLoggedIn = false; 
+
+      if (isLoggedIn) {
+        window.location.href = '/create_post';
+      } else {
+        window.location.href = '/signin';
+      }
     }
   </script>
 </body>
