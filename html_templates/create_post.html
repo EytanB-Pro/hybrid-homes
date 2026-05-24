@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Homes - Create Listing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    
+    <style>
+        .form-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            🌱 <span>HYBRID-HOMES</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/create_post" class="nav-link active">Create Listing</a></li>
+        </ul>
+    </header>
+
+    <div class="container form-wrapper">
+        <div class="card">
+            <h2 class="card-title">Create Property Listing</h2>
+            <p>Fill out the property specifications below to publish your home listing.</p>
+
+            <div id="errorAlert" class="alert alert-danger hidden"></div>
+            <div id="successAlert" class="alert hidden"></div>
+
+            <!-- Multipart enctype added specifically to handle image binary uploads -->
+            <form id="createPostForm" action="/create_post" method="POST" enctype="multipart/form-data">
+                
+                ### Property Address
+                <div class="form-group">
+                    <label class="form-label" for="address_line1">Address Line 1</label>
+                    <input type="text" id="address_line1" name="address_line1" class="form-control" placeholder="123 Eco Way" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="address_line2">Address Line 2 (Optional)</label>
+                    <input type="text" id="address_line2" name="address_line2" class="form-control" placeholder="Apt, Suite, Unit">
+                </div>
+
+                <div class="grid" style="grid-template-columns: 2fr 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="city">City</label>
+                        <input type="text" id="city" name="city" class="form-control" placeholder="Austin" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="state">State</label>
+                        <input type="text" id="state" name="state" class="form-control" placeholder="TX" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="zip_code">Zip Code</label>
+                        <input type="text" id="zip_code" name="zip_code" class="form-control" placeholder="78701" required>
+                    </div>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-light); margin: 2rem 0;">
+
+                ### Property Details
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="property_type">Property Type</label>
+                        <select id="property_type" name="property_type" class="form-control" required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="House">House</option>
+                            <option value="Condo">Condo</option>
+                            <option value="Townhouse">Townhouse</option>
+                            <option value="Apartment">Apartment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="listing_type">Listing Type</label>
+                        <select id="listing_type" name="listing_type" class="form-control" required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="For Sale">For Sale</option>
+                            <option value="For Rent">For Rent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="price">Price ($)</label>
+                        <input type="number" id="price" name="price" step="0.01" min="0" class="form-control" placeholder="350000" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="square_footage">Square Footage</label>
+                        <input type="number" id="square_footage" name="square_footage" min="0" class="form-control" placeholder="1850" required>
+                    </div>
+                </div>
+
+                <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="num_bedrooms">Bedrooms</label>
+                        <input type="number" id="num_bedrooms" name="num_bedrooms" min="0" class="form-control" placeholder="3" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="num_bathrooms">Bathrooms</label>
+                        <input type="number" id="num_bathrooms" name="num_bathrooms" step="0.5" min="0" class="form-control" placeholder="2.5" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="year_built">Year Built (Optional)</label>
+                        <input type="number" id="year_built" name="year_built" min="1800" max="2026" class="form-control" placeholder="2020">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Property Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="4" placeholder="Describe the eco-features, backyard, layout..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="images">Property Images</label>
+                    <!-- multiple attribute lets user shift-click select several files -->
+                    <input type="file" id="images" name="images" class="form-control" accept="image/*" multiple>
+                    <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">You can upload one or multiple images simultaneously.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">
+                    Publish Listing
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Hybrid Homes Project. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('createPostForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const errorAlert = document.getElementById('errorAlert');
+            const successAlert = document.getElementById('successAlert');
+            const form = e.target;
+
+            errorAlert.classList.add('hidden');
+            errorAlert.innerText = '';
+            successAlert.classList.add('hidden');
+            successAlert.innerText = '';
+
+            /* 
+              Crucial: Instead of raw JSON text stringifying, we pass the 
+              native form object directly to FormData() to cleanly handle 
+              the file streams (images) alongside form parameters.
+            */
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/create_post', {
+                    method: 'POST',
+                    body: formData // No headers manually needed; browser auto-creates boundary bounds
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to construct property listing.');
+                }
+
+                successAlert.innerText = result.message;
+                successAlert.classList.remove('hidden');
+                successAlert.classList.add('alert-success');
+                
+                form.reset(); // Wipe inputs and files cleanly
+
+            } catch (err) {
+                errorAlert.innerText = err.message;
+                errorAlert.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

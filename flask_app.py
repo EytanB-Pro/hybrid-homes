@@ -27,6 +27,10 @@ def home_page():
 def signin_page():
     return render_template("sign_up.html")
 
+@app.route("/create_post", methods=["GET"])
+def create_post_page():
+    return render_template("create_post.html")
+
 
 @app.route("/signup", methods=["POST"])
 def add_user():
