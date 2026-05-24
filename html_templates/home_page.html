@@ -160,7 +160,7 @@
     /* Hero Section */
     .hero {
       text-align: center;
-      padding: 4rem 1.5rem 2rem;
+      padding: 4rem 1.5rem 1rem;
       max-width: 800px;
       margin: 0 auto;
     }
@@ -170,11 +170,187 @@
       color: var(--text-secondary);
     }
 
+    /* --- SEARCH COMPONENT SYSTEM --- */
+    .search-section {
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1rem;
+    }
+
+    .search-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 0.5rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .search-container:focus-within {
+      border-color: var(--green-500);
+      box-shadow: var(--shadow-focus), var(--shadow-md);
+    }
+
+    .text-search-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding-left: 0.75rem;
+    }
+
+    .search-icon {
+      color: var(--text-muted);
+      margin-right: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .main-search-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .main-search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Image Search Dropzone Feature */
+    .image-search-wrapper {
+      position: relative;
+    }
+
+    .image-search-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--green-50);
+      border: 1px dashed var(--green-400);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--green-800);
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .image-search-label:hover {
+      background-color: var(--green-100);
+      border-color: var(--green-600);
+    }
+
+    .image-search-label svg {
+      color: var(--green-700);
+      flex-shrink: 0;
+    }
+
+    .file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Attached image status bar */
+    .file-status-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--green-50);
+      border: 1px solid var(--green-200);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--green-800);
+      animation: fadeIn 0.25s ease forwards;
+    }
+
+    .file-status-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      max-width: 80%;
+    }
+
+    .file-name-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+
+    .clear-file-btn {
+      background: none;
+      border: none;
+      color: var(--error);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .clear-file-btn:hover {
+      background-color: var(--error-bg);
+    }
+
+    .search-submit-btn {
+      background-color: var(--green-700);
+      color: var(--white);
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .search-submit-btn:hover {
+      background-color: var(--green-800);
+    }
+
+    @media (max-width: 640px) {
+      .search-container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.75rem;
+        border-radius: var(--radius-lg);
+      }
+      .text-search-wrapper {
+        padding: 0.5rem 0;
+      }
+      .image-search-label {
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+      .search-submit-btn {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+    /* --- END SEARCH COMPONENT SYSTEM --- */
+
     /* Custom Segmented 4-Way Toggle */
     .toggle-wrapper {
       display: flex;
       justify-content: center;
-      margin: 2rem 0 3.5rem;
+      margin: 1rem 0 3.5rem;
     }
 
     .segmented-control {
@@ -371,8 +547,7 @@
 
   <!-- Navigation Header -->
   <header class="navbar">
-    <!-- Clickable Logo linking back to homepage path -->
-    <a href="/" class="logo" style="text-decoration: none; color: var(--green-700); display: flex; align-items: center; gap: 0.5rem;">
+    <a href="/" class="logo">
       ✦ <span>Hybrid Homes</span>
     </a>
     
@@ -389,6 +564,42 @@
     <section class="hero">
       <h1>Evolved Architectural Living</h1>
       <p>Precision engineering meets sustainable luxury. Browse through our flexible infrastructure frameworks tailored to your specific situational needs.</p>
+    </section>
+
+    <!-- CREATIVE DUAL MULTI-SEARCH SYSTEM -->
+    <section class="search-section">
+      <form id="hybridSearchForm" onsubmit="executeSearch(event)">
+        <div class="search-container">
+          <!-- Text Query Side -->
+          <div class="text-search-wrapper">
+            <span class="search-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </span>
+            <input type="text" class="main-search-input" id="textSearchInput" placeholder="Search by layout, keywords, styles, or structural footprints...">
+          </div>
+          
+          <!-- Image Search Upload Field -->
+          <div class="image-search-wrapper">
+            <label for="imageSearchInput" class="image-search-label" title="Upload architectural inspiration photo to scan matches">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+              <span>Search by Image</span>
+            </label>
+            <input type="file" id="imageSearchInput" class="file-input" accept="image/*" onchange="handleImageUpload(event)">
+          </div>
+
+          <!-- Master Action Activation Control -->
+          <button type="submit" class="search-submit-btn">Search</button>
+        </div>
+
+        <!-- Selected Image Status Output HUD -->
+        <div class="file-status-bar" id="fileStatusBar">
+          <div class="file-status-info">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--green-600);"><path d="M5 13l4 4L19 7"></path></svg>
+            <span class="file-name-text" id="fileNameDisplay">Inspiration_file.jpg</span>
+          </div>
+          <button type="button" class="clear-file-btn" onclick="clearImageUpload()">Clear File</button>
+        </div>
+      </form>
     </section>
 
     <!-- 4-Way Mode Toggle Selection Grid -->
@@ -562,10 +773,46 @@
       document.getElementById('section-' + mode).classList.add('active-section');
     }
 
+    // Interactive Search Logic Hub
+    function handleImageUpload(event) {
+      const input = event.target;
+      const statusBar = document.getElementById('fileStatusBar');
+      const nameDisplay = document.getElementById('fileNameDisplay');
+      
+      if (input.files && input.files[0]) {
+        nameDisplay.textContent = `Target Inspiration Image Selected: "${input.files[0].name}"`;
+        statusBar.style.display = 'flex';
+      }
+    }
+
+    function clearImageUpload() {
+      const input = document.getElementById('imageSearchInput');
+      const statusBar = document.getElementById('fileStatusBar');
+      input.value = '';
+      statusBar.style.display = 'none';
+    }
+
+    function executeSearch(event) {
+      event.preventDefault();
+      const textQuery = document.getElementById('textSearchInput').value;
+      const imageFile = document.getElementById('imageSearchInput').files[0];
+      
+      if (!textQuery && !imageFile) {
+        alert("Please provide either a search text term or drop an architectural image file reference to search.");
+        return;
+      }
+
+      // Placeholder logic for routing parameters
+      let message = "Initiating Hybrid Engine Search Execution:\n";
+      if(textQuery) message += `- Parsing Text Query: "${textQuery}"\n`;
+      if(imageFile) message += `- Scanning Spatial Semantics on file: ${imageFile.name}`;
+      
+      alert(message);
+    }
+
     // Role filtering router logic
     function handleSellerRedirect(event) {
       event.preventDefault();
-      
       const isLoggedIn = false; 
 
       if (isLoggedIn) {
