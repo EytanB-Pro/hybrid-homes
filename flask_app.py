@@ -1,7 +1,8 @@
 import os
-
+from meilisearch.errors import MeilisearchApiError
 from flask import Flask, request, render_template, jsonify
-from datetime import datetime 
+from datetime import datetime
+import meilisearch 
 from databases.config import DevConfig
 from databases.user_rdb import db, User
 from werkzeug.utils import secure_filename
@@ -14,6 +15,18 @@ db.init_app(app)
 
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+client = meilisearch.Client("http://127.0.0.1:7700")
+
+DATA_DIR = "seller_homes"  
+INDEX_NAME = "real_estate_listings"
+
+try:
+    index = client.get_index(INDEX_NAME)
+except MeilisearchApiError:
+    index = client.create_index(INDEX_NAME, {"primaryKey": "id"})
+  
+
 
 @app.route("/signup", methods=["GET"])
 def signup_page():
@@ -31,6 +44,13 @@ def signin_page():
 def create_post_page():
     return render_template("create_post.html")
 
+@app.route("/search")
+def search_page():
+    return render_template("search.html")
+
+
+
+# ---DB API Endpoints---
 
 @app.route("/signup", methods=["POST"])
 def add_user():
@@ -275,12 +295,98 @@ def create_post():
     return {"message": "Listing created successfully!"}, 201
 
     
-
 @app.route("/create_db", methods=["POST"])
 def create_db():
     with app.app_context():
         db.create_all()
     return {"message": "Database tables created"}
+
+
+# --- Search API Endpoint ---
+@app.route("/add_to_index", methods=["POST"])
+def add_to_index():
+    documents_to_add = []
+
+    for filename in os.listdir(DATA_DIR):
+
+
+        path = os.path.join(DATA_DIR, filename)
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        
+        listing = {
+            "id": data["id"],
+            "address_line1": data["address_line1"],
+            "address_line2": data["address_line2"],
+            "city": data["city"],
+            "state": data["state"],
+            "zip_code": data["zip_code"],
+            "price": data["price"],
+            "square_footage": data["square_footage"],
+            "num_bedrooms": data["num_bedrooms"],
+            "num_bathrooms": data["num_bathrooms"],
+            "year_built": data["year_built"],
+            "property_type": data["property_type"],
+            "listing_type": data["listing_type"],
+            "description": data["description"],
+            "images": data["images"]
+        }
+
+        documents_to_add.append(listing)
+    index.add_documents(documents_to_add)
+
+
+    return jsonify({
+        "added_count": len(documents_to_add),
+    })
+
+@app.route("/multi_search/<parse_for>", methods=["GET"])
+def multifaceted_search(parse_for):
+    results = index.search(
+        parse_for,
+        {'limit': 1000,
+
+            "attributesToSearchOn": [
+                "address_line1",
+                "address_line2",
+                "city",
+                "state",
+                "zip_code",
+                "price",
+                "square_footage",
+                "num_bedrooms",
+                "num_bathrooms",
+                "year_built",
+                "property_type",
+                "listing_type",
+                "description"
+            ],
+            "attributesToRetrieve": [
+                "id",
+                "address_line1",
+                "address_line2",
+                "city",
+                "state",
+                "zip_code",
+                "price",
+                "square_footage",
+                "num_bedrooms",
+                "num_bathrooms",
+                "year_built",
+                "property_type",
+                "listing_type",
+                "description",
+                "images"
+            ]})
+                
+
+    return jsonify(results)
+
+@app.route("/show_index", methods=["GET"])
+def show_index():
+    results = index.search("")
+    return jsonify(results)
 
 if __name__ == "__main__":
     app.run(debug=True)

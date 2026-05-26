@@ -765,7 +765,7 @@
     <p>&copy; 2026 Hybrid Homes Architectural Systems. All rights reserved.</p>
   </footer>
 
-  <script>
+<script>
     // Tab switching controls
     function switchMode(event, mode) {
       const buttons = document.querySelectorAll('.toggle-btn');
@@ -798,21 +798,24 @@
       statusBar.style.display = 'none';
     }
 
+    
     function executeSearch(event) {
       event.preventDefault();
-      const textQuery = document.getElementById('textSearchInput').value;
+      const textQuery = document.getElementById('textSearchInput').value.trim();
       const imageFile = document.getElementById('imageSearchInput').files[0];
       
-      if (!textQuery && !imageFile) {
-        alert("Please provide either a search text term or drop an architectural image file reference to search.");
+      if (textQuery) {
+        // Safe encoding handles spaces/special characters and redirects the user
+        window.location.href = `/search?q=${encodeURIComponent(textQuery)}`;
         return;
       }
 
-      let message = "Initiating Hybrid Engine Search Execution:\n";
-      if(textQuery) message += `- Parsing Text Query: "${textQuery}"\n`;
-      if(imageFile) message += `- Scanning Spatial Semantics on file: ${imageFile.name}`;
-      
-      alert(message);
+      if (imageFile) {
+        alert(`Image search for "${imageFile.name}" is ready for your image processing endpoint.`);
+        return;
+      }
+
+      alert("Please provide either a search text term or drop an architectural image file reference to search.");
     }
 
     // Role filtering router logic
