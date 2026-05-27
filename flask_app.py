@@ -1,10 +1,10 @@
 import os
-from meilisearch.errors import MeilisearchApiError, MeilisearchCommunicationError
+from meilisearch.errors import MeilisearchApiError
 from flask import Flask, request, render_template, jsonify, session, url_for
 from datetime import datetime, timedelta
 import meilisearch 
 from databases.config import DevConfig
-from databases.user_rdb import db, User
+from databases.user_rdb import db, User, Post
 from werkzeug.utils import redirect, secure_filename
 import json
 import uuid
@@ -78,6 +78,7 @@ def auth_status():
 
 @app.route("/signup", methods=["POST"])
 def add_user():
+    # 1. Parse incoming data safely (JSON or Form Data)
     if request.is_json:
         data = request.get_json()
     else:
@@ -90,6 +91,10 @@ def add_user():
     email = data.get("email")
     dob = data.get("dob")
 
+    # 2. Extract the 'next' redirect target if it was passed via query parameters
+    next_page = request.args.get("next")
+
+    # 3. Validate and parse Date of Birth string
     if isinstance(dob, str) and dob.strip() != "":
         try:
             dob = datetime.strptime(dob, "%Y-%m-%d").date()
@@ -98,6 +103,7 @@ def add_user():
     elif dob == "":
         dob = None
 
+    # 4. Check for duplicate unique entities
     existing_user = User.query.filter(
         (User.username == username) | (User.email == email)
     ).first()
@@ -105,15 +111,28 @@ def add_user():
     if existing_user:
         return jsonify({"error": "A user with this username or email already exists."}), 409
 
+    # 5. Commit new instance data to the database
     try:
-        user = User(username=username, first_name=first_name, last_name=last_name, password=password, email=email, dob=dob)
+        user = User(
+            username=username, 
+            first_name=first_name, 
+            last_name=last_name, 
+            password=password, 
+            email=email, 
+            dob=dob
+        )
         db.session.add(user)
         db.session.commit()
         
+        # 6. Establish session cookie instantly so they are logged in on redirect
+        session["user_id"] = user.id
+        
+        # 7. Return payload including the exact redirect destination path
         return jsonify({
             "message": "User created successfully",
             "user_id": user.id,
-            "username": user.username
+            "username": user.username,
+            "next": next_page if next_page else "/"  # Fallback to home if no next parameter
         }), 201
         
     except Exception as e:
@@ -245,6 +264,7 @@ def update_user(username):
 def create_post():
     data = request.form
     
+    username = session.get("username")
     address_line1 = data.get("address_line1")
     address_line2 = data.get("address_line2", "")
     city = data.get("city")
@@ -294,8 +314,22 @@ def create_post():
 
     post_id = str(uuid.uuid4())
 
+    post = Post(
+        username = session.get("username"),
+        address_line1 = address_line1,
+        address_line2 = address_line2,
+        city = city,
+        state = state,
+        zip_code = zip_code,
+        price = price,
+    )
+
+    db.session.add(post)
+    db.session.commit()
+
 
     new_listing = {
+            "username": session.get("username"),
             "id": post_id,
             "address_line1": address_line1,
             "address_line2": address_line2,
@@ -329,6 +363,31 @@ def create_db():
     with app.app_context():
         db.create_all()
     return {"message": "Database tables created"}
+
+@app.route("/drop_db", methods=["DELETE"])
+def drop_db():
+    with app.app_context():
+        db.drop_all()
+    return {"message": "Database tables dropped"}
+
+@app.route("/get_user_posts/<username>", methods=["GET"])
+def get_user_posts(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return {"error": "User not found"}, 404
+
+    posts = Post.query.filter_by(username=username).all()
+    post_data = [{
+        "id": post.post_id,
+        "address_line1": post.address_line1,
+        "address_line2": post.address_line2,
+        "city": post.city,
+        "state": post.state,
+        "zip_code": post.zip_code,
+        "price": post.price
+    } for post in posts]
+
+    return {"posts": post_data}, 200
 
 
 # --- Search API Endpoint ---

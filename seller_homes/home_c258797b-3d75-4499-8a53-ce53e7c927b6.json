@@ -1,0 +1,22 @@
+{
+    "username": "apple",
+    "id": "c258797b-3d75-4499-8a53-ce53e7c927b6",
+    "address_line1": "5030 Rosewood Ave",
+    "address_line2": "302",
+    "city": "Austin",
+    "state": "Tx",
+    "zip_code": "89099",
+    "price": 11111111.0,
+    "square_footage": 1111,
+    "num_bedrooms": 1,
+    "num_bathrooms": 1.0,
+    "year_built": null,
+    "property_type": "Condo",
+    "listing_type": "For Rent",
+    "description": "djdjs jdhwjd wjsjdwud",
+    "images": [
+        "7e1e2f7b-f305-4068-b1e6-c08d2026f4db_Screenshot_2026-05-24_at_7.57.22_AM.png",
+        "929f6b57-f868-496f-8f93-62e980b26662_Screenshot_2026-05-24_at_7.57.28_AM.png",
+        "f3748de1-27a3-48a9-a4d3-77571799d565_Screenshot_2026-05-24_at_7.57.34_AM.png"
+    ]
+}

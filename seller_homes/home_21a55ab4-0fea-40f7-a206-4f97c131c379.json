@@ -1,0 +1,22 @@
+{
+    "username": "apple",
+    "id": "21a55ab4-0fea-40f7-a206-4f97c131c379",
+    "address_line1": "6767 Oakwood Street",
+    "address_line2": "8989",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zip_code": "90003",
+    "price": 22222222.0,
+    "square_footage": 22222,
+    "num_bedrooms": 2,
+    "num_bathrooms": 2.0,
+    "year_built": null,
+    "property_type": "Townhouse",
+    "listing_type": "For Sale",
+    "description": "dwcw ecwc ewferf",
+    "images": [
+        "d4c564e3-4b8b-42db-b912-d679c816b128_Screenshot_2026-05-24_at_7.58.01_AM.png",
+        "6eeb3463-df88-4b32-bc67-d0811c43f463_Screenshot_2026-05-24_at_7.58.07_AM.png",
+        "403fc27b-71a7-4e75-81cc-1cd6dba22dbd_Screenshot_2026-05-24_at_7.58.15_AM.png"
+    ]
+}

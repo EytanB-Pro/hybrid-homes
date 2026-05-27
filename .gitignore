@@ -1,6 +1,7 @@
 # Ignore compiled Python files
 *.pyc
 __pycache__/
+.DS_Store
 # Ignore virtual environment directories
 venv/
 env/
