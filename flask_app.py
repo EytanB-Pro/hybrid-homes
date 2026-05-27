@@ -34,20 +34,6 @@ try:
 except MeilisearchApiError:
     index = client.create_index(INDEX_NAME, {"primaryKey": "id"})
 
-MEILI_HOST = os.environ.get("MEILISEARCH_HOST", "http://localhost:7700")
-MEILI_KEY = os.environ.get("MEILISEARCH_MASTER_KEY", "masterKey")
-
-try:
-    # Initialize client
-    meili_client = meilisearch.Client(MEILI_HOST, MEILI_KEY)
-    
-    # Optional: Test the connection safely without breaking the boot sequence
-    # meili_client.health() 
-except MeilisearchCommunicationError as e:
-    print(f"⚠️ Warning: Could not connect to Meilisearch at boot: {e}")
-    # Allow the app to boot anyway so Render doesn't fail the deploy
-    meili_client = None
-  
 
 
 @app.route("/signup", methods=["GET"])
