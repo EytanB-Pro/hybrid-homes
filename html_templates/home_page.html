@@ -150,11 +150,94 @@
       padding: 0.4rem 1rem;
       border-radius: var(--radius-full);
       font-size: 0.9rem;
+      cursor: pointer;
     }
 
     .nav-cta:hover {
       background-color: var(--green-700);
       color: var(--white);
+    }
+
+    /* Profile UI Components */
+    .profile-nav-item {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .profile-btn {
+      background: none;
+      border: 2px solid var(--border-light);
+      padding: 0;
+      cursor: pointer;
+      border-radius: var(--radius-full);
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: var(--transition);
+      background-color: var(--bg-light);
+    }
+
+    .profile-btn:hover {
+      border-color: var(--green-600);
+      transform: scale(1.05);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-avatar-svg {
+      color: var(--text-secondary);
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Dropdown UI Block */
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      min-width: 220px;
+      z-index: 200;
+      animation: fadeIn 0.2s ease forwards;
+    }
+
+    .dropdown-name {
+      margin-bottom: 0.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    .dropdown-username {
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .dropdown-divider {
+      border: 0;
+      border-top: 1px solid var(--border-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .dropdown-logout {
+      color: var(--error);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: block;
+      cursor: pointer;
+    }
+
+    .dropdown-logout:hover {
+      color: #b91c1c;
     }
 
     /* Hero Section */
@@ -199,7 +282,7 @@
       display: flex;
       align-items: center;
       padding-left: 0.75rem;
-      min-width: 0; /* Prevents text elements from blowing out container widths */
+      min-width: 0;
     }
 
     .search-icon {
@@ -216,14 +299,13 @@
       font-family: var(--font-sans);
       font-size: 1rem;
       color: var(--text-primary);
-      min-width: 50px; /* Allows the input to safely shrink without breaking container */
+      min-width: 50px;
     }
 
     .main-search-input::placeholder {
       color: var(--text-muted);
     }
 
-    /* Custom visual vertical divider between search methods */
     .search-divider {
       width: 1px;
       height: 28px;
@@ -231,10 +313,9 @@
       flex-shrink: 0;
     }
 
-    /* Image Search Dropzone Feature */
     .image-search-wrapper {
       position: relative;
-      flex-shrink: 0; /* Ensures the image search button stays structural size */
+      flex-shrink: 0;
     }
 
     .image-search-label {
@@ -274,7 +355,6 @@
       border: 0;
     }
 
-    /* Attached image status bar */
     .file-status-bar {
       display: none;
       align-items: center;
@@ -349,7 +429,7 @@
         padding: 0.5rem 0 0.25rem 0;
       }
       .search-divider {
-        display: none; /* Drop divider on mobile stack */
+        display: none;
       }
       .image-search-label {
         justify-content: center;
@@ -362,7 +442,6 @@
     }
     /* --- END SEARCH COMPONENT SYSTEM --- */
 
-    /* Custom Segmented 4-Way Toggle */
     .toggle-wrapper {
       display: flex;
       justify-content: center;
@@ -404,7 +483,6 @@
       background-color: var(--green-700);
     }
 
-    /* Section Explicit Purpose Introductions */
     .section-intro-box {
       background-color: var(--bg-card);
       border-left: 4px solid var(--green-500);
@@ -419,7 +497,6 @@
       font-size: 1.05rem;
     }
 
-    /* Dynamic Content Sections */
     .toggle-section {
       display: none;
       animation: fadeIn 0.4s ease-in-out forwards;
@@ -434,7 +511,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Professional Grid Cards */
     .grid {
       display: grid;
       gap: 2rem;
@@ -570,7 +646,22 @@
       <li><a href="/" class="nav-link active">Home</a></li>
       <li><a href="#" class="nav-link">Explore</a></li>
       <li><a href="#" class="nav-link">Our Technology</a></li>
-      <li><a href="#" class="nav-link nav-cta" onclick="handleSellerRedirect(event)">Become a Seller Today</a></li>
+      <li><a href="/create_post" class="nav-link nav-cta" id="sellerCtaLink" onclick="handleSellerRedirect(event)">Become a Seller Today</a></li>
+      
+      <li class="profile-nav-item">
+        <button class="profile-btn" id="profileButton" onclick="handleProfileClick(event)" title="User Profile / Sign In">
+          <svg class="profile-avatar-svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </button>
+
+        <div class="profile-dropdown" id="profileDropdown">
+          <p class="dropdown-name" id="dropdownFullName">Loading Asset...</p>
+          <p class="dropdown-username" id="dropdownUsername">@username</p>
+          <hr class="dropdown-divider">
+          <a href="/logout" class="dropdown-logout" onclick="executeLogout(event)">Sign Out</a>
+        </div>
+      </li>
     </ul>
   </header>
 
@@ -594,7 +685,7 @@
 
           <div class="image-search-wrapper">
             <label for="imageSearchInput" class="image-search-label" title="Upload architectural inspiration photo to scan matches">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812-1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><circle cx="12" cy="13" r="3"></circle></svg>
               <span>Search by Image</span>
             </label>
             <input type="file" id="imageSearchInput" class="file-input" accept="image/*" onchange="handleImageUpload(event)">
@@ -665,16 +756,12 @@
 
     <div id="section-trybeforebuy" class="toggle-section">
       <div class="section-intro-box">
-        <p><strong>What this option is for:</strong> Risk-mitigation for prospective buyers. Schedule a short experimental trial stay or visit inside a fully functional prototype model. If you proceed with a final home purchase, 100% of your reservation fees apply directly to your contract down payment.</p>
+        <p><strong>What this option is for:</strong> Risk-mitigation for prospective buyers. Schedule a short experimental trial stay or visit inside a fully functional prototype model.</p>
       </div>
-
       <div class="alert">
         <strong>The Ultimate Transition:</strong> Stay up to 30 days. Experience the structural framework firsthand before making a permanent asset commitment.
       </div>
-
       <h2>Try Before You Buy Experiences</h2>
-      <p>Don't commit blindly. Move your lifestyle directly into a finished Hybrid installation to experience our off-grid systems firsthand.</p>
-      
       <div class="grid">
         <div class="card">
           <div class="card-img-container">
@@ -686,22 +773,7 @@
               <span class="card-price">$250 / night</span>
             </div>
             <h3>Lumina Living Experience</h3>
-            <p>Test drive the home's smart automation, off-grid energy storage profiles, and structural airflow configurations for a weekend or a month.</p>
-            <button class="btn btn-primary">Book Trial Residence</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img-container">
-            <img src="https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg" alt="Nordic Pavilion Trial" class="card-img">
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-success">Trial Residence</span>
-              <span class="card-price">$180 / night</span>
-            </div>
-            <h3>Nordic Rest Test</h3>
-            <p>Immerse yourself completely within our high-performance off-grid timber escape and experience true physical insulation properties.</p>
+            <p>Test drive the home's smart automation, off-grid energy storage profiles, and structural airflow configurations.</p>
             <button class="btn btn-primary">Book Trial Residence</button>
           </div>
         </div>
@@ -710,12 +782,9 @@
 
     <div id="section-shortterm" class="toggle-section">
       <div class="section-intro-box">
-        <p><strong>What this option is for:</strong> Leisure traveling and eco-tourism. Book standard temporary vacation stays inside premium, self-sustaining modular models located in breathtaking, remote geographical landscapes.</p>
+        <p><strong>What this option is for:</strong> Leisure traveling and eco-tourism. Book standard temporary vacation stays inside premium, self-sustaining modular models.</p>
       </div>
-
       <h2>Curated Short-Term Rentals</h2>
-      <p>Flexible short-term getaways combining radical environmental autonomy with luxury minimalist resort amenities.</p>
-      
       <div class="grid">
         <div class="card">
           <div class="card-img-container">
@@ -727,7 +796,7 @@
               <span class="card-price">$310 / night</span>
             </div>
             <h3>The Meridian Oasis</h3>
-            <p>Experience urban minimalist interior design merged with structural environmental independence. Positioned deep in remote canyon ecosystems.</p>
+            <p>Experience urban minimalist interior design merged with structural environmental independence.</p>
             <button class="btn btn-primary">Check Vacation Availability</button>
           </div>
         </div>
@@ -736,12 +805,9 @@
 
     <div id="section-events" class="toggle-section">
       <div class="section-intro-box">
-        <p><strong>What this option is for:</strong> Commercial and collaborative bookings. Rent scalable, wide-open architectural layouts optimized for corporate summits, private culinary events, galleries, workshops, or environmental exhibitions.</p>
+        <p><strong>What this option is for:</strong> Commercial and collaborative bookings. Rent scalable layouts optimized for corporate summits or environmental exhibitions.</p>
       </div>
-
       <h2>Sustainable Event Spacing</h2>
-      <p>Host dynamic gatherings in high-capacity, climate-controlled environmental pavilions equipped with comprehensive tech integrations.</p>
-      
       <div class="grid">
         <div class="card">
           <div class="card-img-container">
@@ -753,7 +819,7 @@
               <span class="card-price">$1,200 / day</span>
             </div>
             <h3>The Nexus Pavilion</h3>
-            <p>An expansive, hyper-configurable open hall featuring variable atmospheric controls, surround-acoustics, and automated solar shading arrays.</p>
+            <p>An expansive, hyper-configurable open hall featuring variable atmospheric controls and automated solar shading arrays.</p>
             <button class="btn btn-primary">Reserve Venue Block</button>
           </div>
         </div>
@@ -765,8 +831,72 @@
     <p>&copy; 2026 Hybrid Homes Architectural Systems. All rights reserved.</p>
   </footer>
 
-<script>
-    // Tab switching controls
+  <script>
+    // System State Cache
+    let cachedAuthState = { logged_in: false };
+
+    // Run as soon as the DOM tree loads to dynamically handle layout state
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('/api/auth-status')
+        .then(res => res.json())
+        .then(data => {
+          cachedAuthState = data;
+          if (data.logged_in) {
+            // Update profile visual feedback indicator
+            document.getElementById('profileButton').style.borderColor = 'var(--green-500)';
+            
+            // Populate Dropdown interface values safely
+            document.getElementById('dropdownFullName').textContent = `${data.first_name} ${data.last_name}`;
+            document.getElementById('dropdownUsername').textContent = `@${data.username}`;
+          }
+        })
+        .catch(err => console.error("Identity verification pipeline offline:", err));
+
+      // Close dropdown cleanly if clicking anywhere else outside of the profile components
+      window.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('profileDropdown');
+        const profileBtn = document.getElementById('profileButton');
+        if (!profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.style.display = 'none';
+        }
+      });
+    });
+
+    // Profile button control flow hub
+    function handleProfileClick(event) {
+      event.preventDefault();
+      event.stopPropagation(); // Avoid triggering global body window closing hook immediately
+      
+      if (cachedAuthState.logged_in) {
+        // Toggle profile details menu display
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      } else {
+        // Drop back out to clean authentication page
+        window.location.href = '/signup';
+      }
+    }
+
+    // Guard seller workspace path mapping
+    function handleSellerRedirect(event) {
+      event.preventDefault();
+      if (cachedAuthState.logged_in) {
+        window.location.href = '/create_post';
+      } else {
+        window.location.href = '/signup';
+      }
+    }
+
+    // Clean out server side auth cookies safely
+    function executeLogout(event) {
+      event.preventDefault();
+      fetch('/logout', { method: 'GET' })
+        .then(() => {
+          window.location.href = '/';
+        });
+    }
+
+    // Tab view presentation engines
     function switchMode(event, mode) {
       const buttons = document.querySelectorAll('.toggle-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
@@ -779,7 +909,7 @@
       document.getElementById('section-' + mode).classList.add('active-section');
     }
 
-    // Interactive Search Logic Hub
+    // Search input handlers
     function handleImageUpload(event) {
       const input = event.target;
       const statusBar = document.getElementById('fileStatusBar');
@@ -798,36 +928,22 @@
       statusBar.style.display = 'none';
     }
 
-    
     function executeSearch(event) {
       event.preventDefault();
       const textQuery = document.getElementById('textSearchInput').value.trim();
       const imageFile = document.getElementById('imageSearchInput').files[0];
       
       if (textQuery) {
-        // Safe encoding handles spaces/special characters and redirects the user
         window.location.href = `/search?q=${encodeURIComponent(textQuery)}`;
         return;
       }
 
       if (imageFile) {
-        alert(`Image search for "${imageFile.name}" is ready for your image processing endpoint.`);
+        alert(`Image search pattern ready to process.`);
         return;
       }
 
-      alert("Please provide either a search text term or drop an architectural image file reference to search.");
-    }
-
-    // Role filtering router logic
-    function handleSellerRedirect(event) {
-      event.preventDefault();
-      const isLoggedIn = false; 
-
-      if (isLoggedIn) {
-        window.location.href = '/create_post';
-      } else {
-        window.location.href = '/signin';
-      }
+      alert("Provide a descriptive search term or architectural asset framework image reference.");
     }
   </script>
 </body>

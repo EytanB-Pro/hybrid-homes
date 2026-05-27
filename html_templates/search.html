@@ -102,9 +102,9 @@
 
           // 3. Dynamically append structural properties into layout
           hits.forEach(property => {
-            // Safe image placeholder checks
+            // Updated image check: Prepends /static/uploads/ path if an image exists in the array
             const imgSrc = (property.images && property.images.length > 0) 
-              ? property.images[0] 
+              ? `/static/uploads/${property.images[0]}` 
               : 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg';
 
             const cardHTML = `

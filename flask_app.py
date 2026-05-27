@@ -1,20 +1,28 @@
 import os
 from meilisearch.errors import MeilisearchApiError
-from flask import Flask, request, render_template, jsonify
-from datetime import datetime
+from flask import Flask, request, render_template, jsonify, session, url_for
+from datetime import datetime, timedelta
 import meilisearch 
 from databases.config import DevConfig
 from databases.user_rdb import db, User
-from werkzeug.utils import secure_filename
+from werkzeug.utils import redirect, secure_filename
 import json
 import uuid
 
 app = Flask(__name__, template_folder="html_templates")
 app.config.from_object(DevConfig)
+
+
+app.config['SECRET_KEY'] = 'Will be replaced with a secure key in production' 
+
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+
 db.init_app(app)
 
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 
 client = meilisearch.Client("http://127.0.0.1:7700")
 
@@ -42,6 +50,8 @@ def signin_page():
 
 @app.route("/create_post", methods=["GET"])
 def create_post_page():
+    if "user_id" not in session:
+        return redirect(url_for("signup_page"))
     return render_template("create_post.html")
 
 @app.route("/search")
@@ -51,6 +61,20 @@ def search_page():
 
 
 # ---DB API Endpoints---
+
+@app.route("/api/auth-status", methods=["GET"])
+def auth_status():
+    if "user_id" in session:
+        user = User.query.get(session["user_id"])
+        if user:
+            return jsonify({
+                "logged_in": True,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name
+            }), 200
+            
+    return jsonify({"logged_in": False}), 200
 
 @app.route("/signup", methods=["POST"])
 def add_user():
@@ -119,6 +143,11 @@ def signin():
         # Note: If you aren't hashing yet, use: user.password != password
         if not user or user.password != password:
             return jsonify({"error": "Invalid username, email, or password"}), 401
+        
+        session.clear()  
+        session.permanent = True  
+        session["user_id"] = user.id
+        session["username"] = user.username
         
         dob_string = user.dob.strftime("%Y-%m-%d") if user.dob else None
 
@@ -388,5 +417,9 @@ def show_index():
     results = index.search("")
     return jsonify(results)
 
+@app.route("/delete_index", methods=["DELETE"])
+def delete_index():
+    client.delete_index(INDEX_NAME)
+    return {"message": "Index deleted successfully"}
 if __name__ == "__main__":
     app.run(debug=True)
