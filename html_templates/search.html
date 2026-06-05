@@ -5,38 +5,147 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search Results | Hybrid Homes</title>
   <style>
-    /* Insert your existing :root variables, html, body, and .navbar styles here */
+    /* Architectural Design System Tokens */
     :root {
-      --green-50: #f0fdf4; --green-100: #dcfce7; --green-600: #16a34a; --green-700: #15803d;
-      --white: #ffffff; --bg-light: #f8fafc; --bg-card: #ffffff; --border-light: #e2e8f0;
-      --text-primary: #0f172a; --text-secondary: #475569; --text-muted: #64748b;
-      --radius-md: 10px; --radius-lg: 16px; --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08); --font-sans: 'Inter', system-ui, sans-serif;
+      --green-50: #f0fdf4; 
+      --green-100: #dcfce7; 
+      --green-600: #16a34a; 
+      --green-700: #15803d;
+      --green-800: #166534;
+      --white: #ffffff; 
+      --bg-light: #f8fafc; 
+      --bg-card: #ffffff; 
+      --border-light: #e2e8f0;
+      --text-primary: #0f172a; 
+      --text-secondary: #475569; 
+      --text-muted: #64748b;
+      --radius-md: 10px; 
+      --radius-lg: 16px; 
+      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08); 
+      --font-sans: 'Inter', system-ui, sans-serif;
       --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    body { background-color: var(--bg-light); color: var(--text-primary); font-family: var(--font-sans); padding: 0; margin: 0; }
-    header.navbar { background-color: var(--bg-card); border-bottom: 1px solid var(--border-light); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-weight: 800; font-size: 1.4rem; color: var(--green-700); text-decoration: none; }
-    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    body { 
+      background-color: var(--bg-light); 
+      color: var(--text-primary); 
+      font-family: var(--font-sans); 
+      padding: 0; 
+      margin: 0; 
+    }
+
+    header.navbar { 
+      background-color: var(--bg-card); 
+      border-bottom: 1px solid var(--border-light); 
+      padding: 1rem 2rem; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+
+    .logo { 
+      font-weight: 800; 
+      font-size: 1.4rem; 
+      color: var(--green-700); 
+      text-decoration: none; 
+    }
+
+    .container { 
+      width: 100%; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 2rem 1.5rem; 
+    }
     
-    /* Result Specific Styles */
+    /* Result Architecture Styles */
     .search-header-context { margin-bottom: 2rem; }
     .search-header-context h1 { font-size: 2rem; margin-bottom: 0.5rem; }
     .query-highlight { color: var(--green-700); font-style: normal; }
     
-    .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-top: 1.5rem; }
-    .card { background-color: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
-    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .card-img-container { width: 100%; height: 220px; overflow: hidden; background-color: var(--green-50); }
-    .card-img { width: 100%; height: 100%; object-fit: cover; }
-    .card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-    .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-    .badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; background-color: var(--green-100); color: var(--green-800); }
-    .card-price { font-weight: 700; color: var(--green-700); font-size: 1.2rem; }
-    .card h3 { margin-bottom: 0.5rem; font-size: 1.3rem; }
-    .card-specs { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.75rem; }
+    .grid { 
+      display: grid; 
+      gap: 2rem; 
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+      margin-top: 1.5rem; 
+    }
+
+    .card { 
+      background-color: var(--bg-card); 
+      border: 1px solid var(--border-light); 
+      border-radius: var(--radius-lg); 
+      overflow: hidden; 
+      box-shadow: var(--shadow-sm); 
+      transition: var(--transition); 
+      display: flex; 
+      flex-direction: column; 
+    }
+
+    .card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: var(--shadow-lg); 
+    }
+
+    .card-img-container { 
+      width: 100%; 
+      height: 220px; 
+      overflow: hidden; 
+      background-color: var(--green-50); 
+    }
+
+    .card-img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+    }
+
+    .card-body { 
+      padding: 1.5rem; 
+      display: flex; 
+      flex-direction: column; 
+      flex-grow: 1; 
+    }
+
+    .card-meta { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 1rem; 
+    }
+
+    .badge { 
+      padding: 0.25rem 0.75rem; 
+      border-radius: 9999px; 
+      font-size: 0.75rem; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      background-color: var(--green-100); 
+      color: var(--green-800); 
+    }
+
+    .card-price { 
+      font-weight: 700; 
+      color: var(--green-700); 
+      font-size: 1.2rem; 
+    }
+
+    .card h3 { 
+      margin-bottom: 0.5rem; 
+      font-size: 1.3rem; 
+      line-height: 1.3;
+    }
+
+    .card-specs { 
+      display: flex; 
+      gap: 1rem; 
+      font-size: 0.85rem; 
+      color: var(--text-muted); 
+      margin-bottom: 1rem; 
+      border-bottom: 1px solid var(--border-light); 
+      padding-bottom: 0.75rem; 
+    }
     
-    /* Loading & Status States */
+    /* Loading / Empty States */
     .status-message { text-align: center; padding: 4rem 2rem; color: var(--text-secondary); font-size: 1.2rem; }
     .loader { border: 4px solid var(--border-light); border-top: 4px solid var(--green-600); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -64,7 +173,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // 1. Snag the query parameter out of the URL bar
+      // Extract keywords safely out of URL
       const urlParams = new URLSearchParams(window.location.search);
       const query = urlParams.get('q');
 
@@ -80,14 +189,13 @@
 
       metaSummary.innerHTML = `Showing matches for: <em class="query-highlight">"${escapeHtml(query)}"</em>`;
 
-      // 2. Fetch directly from your backend /multi_search API endpoint
+      // Call search pipeline
       fetch(`/multi_search/${encodeURIComponent(query)}`)
         .then(response => {
-          if (!response.ok) throw new Error("Network response encountered operational error.");
+          if (!response.ok) throw new Error("Network response error.");
           return response.json();
         })
         .then(data => {
-          // Meilisearch structure puts hits array under 'hits' property
           const hits = data.hits || [];
           
           if (hits.length === 0) {
@@ -95,42 +203,61 @@
             return;
           }
 
-          // Clear loading text, show target container
           statusContainer.style.display = 'none';
           resultsGrid.style.display = 'grid';
           resultsGrid.innerHTML = '';
 
-          // 3. Dynamically append structural properties into layout
           hits.forEach(property => {
-            // Updated image check: Prepends /static/uploads/ path if an image exists in the array
+            // Build fallback for image arrays
             const imgSrc = (property.images && property.images.length > 0) 
               ? `/static/uploads/${property.images[0]}` 
               : 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg';
 
+            // Safe endpoints generation for the view_home controller
+            const safeAddressParam = encodeURIComponent(property.address_line1.trim());
+            const targetPostId = property.post_id || property.id; 
+            const detailsUrl = `/home/${safeAddressParam}/${targetPostId}`;
+
+            // Build initials asset fallback for User Badge
+            const authorInitial = property.username ? property.username.charAt(0).toUpperCase() : 'H';
+
             const cardHTML = `
-              <div class="card">
-                <div class="card-img-container">
-                  <img src="${imgSrc}" alt="${escapeHtml(property.property_type)}" class="card-img">
-                </div>
-                <div class="card-body">
-                  <div class="card-meta">
-                    <span class="badge">${escapeHtml(property.listing_type || 'Active')}</span>
-                    <span class="card-price">$${Number(property.price).toLocaleString()}</span>
+              <a href="${detailsUrl}" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="card" style="width: 100%;">
+                  <div class="card-img-container">
+                    <img src="${imgSrc}" alt="${escapeHtml(property.property_type)}" class="card-img">
                   </div>
-                  <h3>${escapeHtml(property.address_line1)}</h3>
-                  <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-muted);">
-                    ${escapeHtml(property.city)}, ${escapeHtml(property.state)} ${escapeHtml(property.zip_code)}
-                  </p>
-                  <div class="card-specs">
-                    <span> beds: <strong>${property.num_bedrooms}</strong></span>
-                    <span> baths: <strong>${property.num_bathrooms}</strong></span>
-                    <span><strong>${property.square_footage}</strong> sqft</span>
+                  <div class="card-body">
+                    
+                    <!-- Dynamic User Creator Badge Component -->
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.85rem;">
+                      <div style="width: 22px; height: 22px; background: var(--green-100); color: var(--green-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">
+                        ${authorInitial}
+                      </div>
+                      <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 500;">
+                        @${escapeHtml(property.username || 'anonymous')}
+                      </span>
+                    </div>
+
+                    <div class="card-meta">
+                      <span class="badge">${escapeHtml(property.listing_type || 'Active')}</span>
+                      <span class="card-price">$${Number(property.price).toLocaleString()}</span>
+                    </div>
+                    <h3>${escapeHtml(property.address_line1)}</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-muted);">
+                      ${escapeHtml(property.city)}, ${escapeHtml(property.state)} ${escapeHtml(property.zip_code)}
+                    </p>
+                    <div class="card-specs">
+                      <span> beds: <strong>${property.num_bedrooms}</strong></span>
+                      <span> baths: <strong>${property.num_bathrooms}</strong></span>
+                      <span><strong>${property.square_footage}</strong> sqft</span>
+                    </div>
+                    <p style="font-size: 0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--text-secondary);">
+                      ${escapeHtml(property.description || '')}
+                    </p>
                   </div>
-                  <p style="font-size: 0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                    ${escapeHtml(property.description || '')}
-                  </p>
                 </div>
-              </div>
+              </a>
             `;
             resultsGrid.insertAdjacentHTML('beforeend', cardHTML);
           });
@@ -141,7 +268,7 @@
         });
     });
 
-    // Helper to keep structural inputs safe from injection breaks
+    // Mitigation for input scripts
     function escapeHtml(str) {
       if (!str) return '';
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

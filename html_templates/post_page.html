@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ home.title if home.title else home.address_line1 }} | Hybrid Homes</title>
+  <style>
+    /* Premium Architectural Tokens - Organic Light Theme */
+    :root {
+      --emerald: #0f5132;
+      --sage-light: #f4f7f5;
+      --canvas: #fafbfc;
+      --ink: #0b0f19;
+      --slate: #525866;
+      --glass-border: rgba(15, 81, 50, 0.08);
+      
+      --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+      
+      --radius-organic: 24px;
+      --radius-pill: 9999px;
+      --radius-card: 16px;
+      
+      --shadow-atmosphere: 0 20px 40px -10px rgba(11, 15, 25, 0.06), 0 8px 20px -6px rgba(11, 15, 25, 0.03);
+      --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-display);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Seamless Navigation */
+    header.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.75rem 3rem;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    /* Main Showcase Canvas */
+    .property-canvas {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 7rem 2rem 5rem;
+    }
+
+    /* Asymmetric Visual Media Grid */
+    .media-showcase-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+      height: 550px;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-atmosphere);
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .media-showcase-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .secondary-media-stack { display: none; }
+    }
+
+    .primary-image-frame {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background-color: var(--sage-light);
+    }
+
+    .secondary-media-stack {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stacked-image-frame {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background-color: var(--sage-light);
+    }
+
+    /* Architectural Information Splitting Layout */
+    .details-split-layout {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .details-split-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+
+    /* Left Block: Narrative Content */
+    .meta-context-strip {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+
+    .context-pill {
+      background: var(--sage-light);
+      color: var(--emerald);
+      padding: 0.35rem 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .view-count-badge {
+      font-size: 0.85rem;
+      color: var(--slate);
+    }
+
+    .main-headline {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .location-subtitle {
+      font-size: 1.1rem;
+      color: var(--slate);
+      margin-bottom: 2.5rem;
+    }
+
+    /* Core Structural Specs Matrix */
+    .structural-specs-matrix {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--sage-light);
+      border-bottom: 1px solid var(--sage-light);
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 576px) {
+      .structural-specs-matrix {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+
+    .spec-item-node {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-label {
+      font-size: 0.8rem;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .spec-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .narrative-block h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .narrative-text {
+      color: var(--slate);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    /* Right Block: Transaction Execution Panel */
+    .transaction-sticky-panel {
+      background: white;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      box-shadow: var(--shadow-atmosphere);
+      position: sticky;
+      top: 30px;
+    }
+
+    .panel-price-headline {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .panel-price-subtext {
+      font-size: 0.9rem;
+      color: var(--slate);
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-action-btn {
+      width: 100%;
+      background: var(--ink);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-action-btn:hover {
+      background: var(--emerald);
+    }
+
+    .identity-attribution-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--sage-light);
+    }
+
+    .avatar-placeholder {
+      width: 40px;
+      height: 40px;
+      background: var(--sage-light);
+      color: var(--emerald);
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .identity-meta-info p {
+      font-size: 0.88rem;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/" class="logo">✦ Hybrid Homes</a>
+  </header>
+
+  <main class="property-canvas">
+    
+    <div class="media-showcase-grid">
+      <img src="{{ '/static/uploads/' ~ home.images[0] if home.images and home.images[0] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Primary view" class="primary-image-frame">
+      
+      <div class="secondary-media-stack">
+        <img src="{{ '/static/uploads/' ~ home.images[1] if home.images and home.images[1] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Secondary view" class="stacked-image-frame">
+        <img src="{{ '/static/uploads/' ~ home.images[2] if home.images and home.images[2] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Detail view" class="stacked-image-frame">
+      </div>
+    </div>
+
+    <div class="details-split-layout">
+      
+      <div class="narrative-column">
+        <div class="meta-context-strip">
+          <span class="context-pill">{{ home.property_type }}</span>
+          <span class="context-pill">{{ home.listing_type }}</span>
+          <span class="view-count-badge">👁️ {{ home.views }} views</span>
+        </div>
+
+        <h1 class="main-headline">{{ home.address_line1 }}</h1>
+        <p class="location-subtitle">
+          {% if home.address_line2 %}{{ home.address_line2 }}, {% endif %}{{ home.city }}, {{ home.state }} {{ home.zip_code }}
+        </p>
+
+        <div class="structural-specs-matrix">
+          <div class="spec-item-node">
+            <span class="spec-label">Bedrooms</span>
+            <span class="spec-value">{{ home.num_bedrooms }}</span>
+          </div>
+          <div class="spec-item-node">
+            <span class="spec-label">Bathrooms</span>
+            <span class="spec-value">{{ home.num_bathrooms | replace('.0', '') }}</span>
+          </div>
+          <div class="spec-item-node">
+            <span class="spec-label">Square Feet</span>
+            <span class="spec-value">{{ "{:,}".format(home.square_footage) if home.square_footage else "—" }}</span>
+          </div>
+          <div class="spec-item-node">
+            <span class="spec-label">Built</span>
+            <span class="spec-value">{{ home.year_built if home.year_built else "Modern" }}</span>
+          </div>
+        </div>
+
+        <div class="narrative-block">
+          <h3>Architectural Concept & Features</h3>
+          <p class="narrative-text">{{ home.description }}</p>
+        </div>
+      </div>
+
+      <div class="transaction-sidebar">
+        <div class="transaction-sticky-panel">
+          <h2 class="panel-price-headline">${{ "{:,}".format(home.price) if home.price else "TBD" }}</h2>
+          <p class="panel-price-subtext">Estimated tracking appraisal value</p>
+          
+          <button class="panel-action-btn" onclick="initiateInquiry()">Inquire About Framework</button>
+          
+          <div class="identity-attribution-row">
+            <div class="avatar-placeholder">
+              {{ home.username[0] | upper if home.username else "H" }}
+            </div>
+            <div class="identity-meta-info">
+              <p style="font-weight: 600; color: var(--ink);">Listed by @{{ home.username }}</p>
+              <p style="color: var(--slate); font-size: 0.8rem;">Verified Architectural Seller</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function initiateInquiry() {
+      alert("Inquiry message pipeline routing soon. Asset validation ID: {{ home.id }}");
+    }
+  </script>
+</body>
+</html>

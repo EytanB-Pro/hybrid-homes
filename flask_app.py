@@ -1,11 +1,12 @@
 import os
 from meilisearch.errors import MeilisearchApiError
-from flask import Flask, request, render_template, jsonify, session, url_for
+from flask import Flask, request, render_template, jsonify, session, url_for, abort
 from datetime import datetime, timedelta
 import meilisearch 
 from databases.config import DevConfig
 from databases.user_rdb import db, User, Post
 from werkzeug.utils import redirect, secure_filename
+from sqlalchemy.exc import IntegrityError
 import json
 import uuid
 
@@ -39,6 +40,64 @@ except MeilisearchApiError:
 @app.route("/signup", methods=["GET"])
 def signup_page():
     return render_template("log_in.html")
+
+
+# @app.route('/home/<string:address_line1>/<string:post_id>', methods=['GET'])
+# def view_home(address_line1, post_id):
+#     # 1. FETCH THE DATA
+#     home = Post.query.get_or_404(post_id)
+    
+#     # 2. TRACK THE VIEW (Behind the scenes)
+#     if 'viewed_homes' not in session:
+#         session['viewed_homes'] = []
+        
+#     if post_id not in session['viewed_homes']:
+#         home.views += 1
+#         db.session.commit()
+#         session['viewed_homes'].append(post_id)
+#         session.modified = True
+    
+#     # 3. DISPLAY THE POST
+#     return render_template('post_page.html', home=home)
+
+
+
+@app.route('/home/<string:address_line1>/<string:post_id>', methods=['GET'])
+def view_home(address_line1, post_id):
+    # 1. FETCH THE DATA FROM THE JSON FILE
+    post_file_path = f"seller_homes/home_{post_id}.json"
+    
+    if not os.path.exists(post_file_path):
+        abort(404) # Trigger 404 if the JSON file doesn't exist
+        
+    with open(post_file_path, "r") as f:
+        home_data = json.load(f)
+
+    # 2. TRACK THE VIEW (Behind the scenes via Session)
+    if 'viewed_homes' not in session:
+        session['viewed_homes'] = []
+        
+    if post_id not in session['viewed_homes']:
+        # If tracking view counts in JSON, increment it here
+        home_data['views'] = home_data.get('views', 0) + 1
+        with open(post_file_path, "w") as f:
+            json.dump(home_data, f, indent=4)
+            
+        session['viewed_homes'].append(post_id)
+        session.modified = True
+    
+    # 3. DISPLAY THE POST
+    # Passing home_data as an object-like wrapper so your HTML syntax 'home.property_type' still works seamlessly
+    class ObjectView(object):
+        def __init__(self, d):
+            self.__dict__ = d
+
+    home_object = ObjectView(home_data)
+    return render_template('post_page1.html', home=home_object)
+                           
+@app.route("/profile/<username>", methods=["GET"])
+def profile_page(username):
+    return render_template("profile.html", username=username)                   
 
 @app.route("/", methods=["GET"])
 def home_page():
@@ -262,15 +321,28 @@ def update_user(username):
 
 @app.route("/create_post", methods=["POST"])
 def create_post():
-    data = request.form
+    # 1. Security Check: Ensure the user is actually logged in
+    if "user_id" not in session:
+        return jsonify({"error": "Unauthorized. Please log in."}), 401
     
-    username = session.get("username")
+    # 2. Look up the user's username via their stored session ID
+    current_user = User.query.get(session["user_id"])
+    if not current_user:
+        return jsonify({"error": "User profile not found."}), 404
+    
+    username = current_user.username  # This guarantees a non-null username string!
+
+    data = request.form
     address_line1 = data.get("address_line1")
     address_line2 = data.get("address_line2", "")
     city = data.get("city")
     state = data.get("state")
     zip_code = data.get("zip_code")
+    property_type = data.get("property_type")
+    listing_type = data.get("listing_type")
+    description = data.get("description", "")
     
+    # Parse numerical data safely
     try:
         price = float(data.get("price", 0))
         square_footage = int(data.get("square_footage", 0))
@@ -278,84 +350,78 @@ def create_post():
         num_bathrooms = float(data.get("num_bathrooms", 0)) 
         year_built = int(data.get("year_built")) if data.get("year_built") else None
     except ValueError:
-        return {"error": "Invalid numerical data provided"}, 400
+        return jsonify({"error": "Invalid numerical data provided"}), 400
 
-    property_type = data.get("property_type") # e.g., "Condo", "House"
-    listing_type = data.get("listing_type")   # e.g., "For Sale", "For Rent"
-    description = data.get("description", "")
-    
-    # --- Amenities (Checkboxes usually submit "on" if checked, or aren't in the dict if unchecked) ---
-    # has_ac = data.get("has_ac") == "on"
-    # pets_allowed = data.get("pets_allowed") == "on"
-    # has_parking = data.get("has_parking") == "on"
-
-
+    # 3. Handle image array uploads
     image_filenames = []
-
     if "images" in request.files:
         images = request.files.getlist("images")
-        
         for file in images:
             if file and file.filename != '':
-                # Clean the filename
                 filename = secure_filename(file.filename)
-                
-                # 2. Generate a unique filename to prevent overwriting files with the same name
                 unique_filename = f"{uuid.uuid4()}_{filename}"
-                
-                # 3. Create the full path destination
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
                 
-                # 4. Save the actual file data to your disk
+                # Make sure upload directory exists before saving
+                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
                 file.save(file_path)
-                
-                # Save the unique filename to your JSON database instead of the raw name
                 image_filenames.append(unique_filename)
 
     post_id = str(uuid.uuid4())
 
+    # 4. Save to SQLAlchemy Database
+    # Note: Make sure your SQLAlchemy Post model has columns for all these fields!
     post = Post(
-        username = session.get("username"),
-        address_line1 = address_line1,
-        address_line2 = address_line2,
-        city = city,
-        state = state,
-        zip_code = zip_code,
-        price = price,
+        username=username,  # Filled correctly now
+        address_line1=address_line1,
+        address_line2=address_line2,
+        city=city,
+        state=state,
+        zip_code=zip_code,
+        price=price,
+        views=0
     )
 
-    db.session.add(post)
-    db.session.commit()
+    try:
+        db.session.add(post)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({"error": "Database error: missing required fields or address duplicate"}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Database crash: {str(e)}"}), 500
 
-
+    # 5. Save details backup into local JSON flat-file
     new_listing = {
-            "username": session.get("username"),
-            "id": post_id,
-            "address_line1": address_line1,
-            "address_line2": address_line2,
-            "city": city,
-            "state": state,
-            "zip_code": zip_code,
-            "price": price,
-            "square_footage": square_footage,
-            "num_bedrooms": num_bedrooms,
-            "num_bathrooms": num_bathrooms,
-            "year_built": year_built,
-            "property_type": property_type,
-            "listing_type": listing_type,
-            "description": description,
-            # "has_ac": has_ac,
-            # "pets_allowed": pets_allowed,
-            # "has_parking": has_parking,
-            "images": image_filenames
-        }
+        "username": username,
+        "id": post_id,
+        "address_line1": address_line1,
+        "address_line2": address_line2,
+        "city": city,
+        "state": state,
+        "zip_code": zip_code,
+        "price": price,
+        "square_footage": square_footage,
+        "num_bedrooms": num_bedrooms,
+        "num_bathrooms": num_bathrooms,
+        "year_built": year_built,
+        "property_type": property_type,
+        "listing_type": listing_type,
+        "description": description,
+        "images": image_filenames
+    }
     
-    post_file_path = f"seller_homes/home_{post_id}.json"
-
-    with open(post_file_path, "w") as f:
-        json.dump(new_listing, f, indent=4)
+    try:
+        os.makedirs("seller_homes", exist_ok=True) # Ensure folder exists
+        post_file_path = f"seller_homes/home_{post_id}.json"
+        with open(post_file_path, "w") as f:
+            json.dump(new_listing, f, indent=4)
+    except Exception as e:
+        return jsonify({"error": f"Failed to write JSON backup file: {str(e)}"}), 500
     
-    return {"message": "Listing created successfully!"}, 201
+    # 6. Success JSON return string to clear up frontend JS errors
+    return jsonify({"message": "Listing created successfully!"}), 201
 
     
 @app.route("/create_db", methods=["POST"])
@@ -480,5 +546,6 @@ def show_index():
 def delete_index():
     client.delete_index(INDEX_NAME)
     return {"message": "Index deleted successfully"}
+
 if __name__ == "__main__":
     app.run(debug=True)

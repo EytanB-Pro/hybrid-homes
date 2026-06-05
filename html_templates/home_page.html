@@ -4,719 +4,298 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hybrid Homes | Architectural Canvas</title>
-  <style>
-    /* Premium Architectural Tokens - Organic Light Theme */
-    :root {
-      --emerald: #0f5132;
-      --sage-light: #f4f7f5;
-      --canvas: #fafbfc;
-      --ink: #0b0f19;
-      --slate: #525866;
-      --glass-border: rgba(15, 81, 50, 0.08);
-      
-      --font-display: 'Inter', system-ui, -apple-system, sans-serif;
-      
-      --radius-organic: 24px;
-      --radius-pill: 9999px;
-      --radius-card: 16px;
-      
-      --shadow-atmosphere: 0 20px 40px -10px rgba(11, 15, 25, 0.06), 0 8px 20px -6px rgba(11, 15, 25, 0.03);
-      --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght=0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--canvas);
-      color: var(--ink);
-      font-family: var(--font-display);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    /* Seamless Navigation */
-    header.navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.75rem 3rem;
-      position: absolute;
-      width: 100%;
-      top: 0;
-      z-index: 100;
-    }
-
-    @media (max-width: 768px) {
-      header.navbar { padding: 1.5rem; }
-    }
-
-    .logo {
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-      align-items: center;
-    }
-
-    .nav-link {
-      color: var(--slate);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: var(--transition-smooth);
-    }
-
-    .nav-link:hover, .nav-link.active {
-      color: var(--emerald);
-    }
-
-    .nav-cta {
-      background-color: var(--ink);
-      color: var(--canvas);
-      padding: 0.6rem 1.5rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.9rem;
-    }
-
-    .nav-cta:hover {
-      background-color: var(--emerald);
-      color: white;
-    }
-
-    /* Profile Core UI */
-    .profile-nav-item {
-      position: relative;
-    }
-
-    .profile-btn {
-      background: white;
-      border: 1px solid rgba(0,0,0,0.05);
-      width: 42px;
-      height: 42px;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition-smooth);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
-
-    .profile-btn:hover {
-      transform: scale(1.05);
-      border-color: var(--emerald);
-    }
-
-    .profile-dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 55px;
-      background: white;
-      border-radius: var(--radius-card);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-atmosphere);
-      min-width: 240px;
-      z-index: 200;
-      border: 1px solid var(--glass-border);
-    }
-
-    .dropdown-name { font-weight: 600; color: var(--ink); }
-    .dropdown-username { font-size: 0.85rem; color: var(--slate); margin-bottom: 1rem; }
-    .dropdown-divider { border: 0; border-top: 1px solid var(--sage-light); margin-bottom: 1rem; }
-    .dropdown-logout { color: #dc2626; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-
-    /* Open, Scenic Hero Epicenter */
-    .hero-canvas {
-      position: relative;
-      min-height: 65vh; /* Reduced vertical scale from 85vh */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 7rem 1.5rem 2rem;
-      background: radial-gradient(circle at 50% -20%, #eef5f1 0%, var(--canvas) 65%);
-    }
-
-    .hero-canvas h1 {
-      font-size: 3.25rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.15;
-      color: var(--ink);
-      max-width: 850px;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .hero-canvas h1 { font-size: 2.25rem; }
-    }
-
-    .hero-canvas p {
-      font-size: 1.1rem;
-      color: var(--slate);
-      max-width: 650px;
-      margin-bottom: 2rem;
-    }
-
-    /* --- HYPER-COMPACT ULTRA-LOW-PROFILE SEARCH FIELDS --- */
-    .search-suite-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      width: 100%;
-      max-width: 840px;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 768px) {
-      .search-suite-layout {
-        grid-template-columns: 1fr;
-        max-width: 440px;
-        gap: 0.75rem;
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            emerald: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              800: '#065f46',
+              900: '#0f5132', // Classic Brand Emerald
+            },
+            basalt: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#0b0f19', // Deep Ink
+            },
+            sage: {
+              50: '#f4f7f5',
+              100: '#eef5f1',
+              200: '#dce8e1',
+              300: '#c2d5cb'
+            }
+          },
+          borderRadius: {
+            'organic': '24px',
+          },
+          boxShadow: {
+            'atmosphere': '0 20px 40px -10px rgba(11, 15, 25, 0.06), 0 8px 20px -6px rgba(11, 15, 25, 0.03)',
+            'atmosphere-dark': '0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 8px 20px -6px rgba(0, 0, 0, 0.3)',
+          }
+        }
       }
     }
+  </script>
 
-    /* Flattened Single-Line Tracking Rows */
-    .flat-search-track {
-      background: white;
-      border-radius: var(--radius-pill);
-      height: 48px; /* Fixed ultra-slim vertical footprint */
-      padding: 0 0.35rem 0 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 10px 25px -5px rgba(11, 15, 25, 0.04);
-      border: 1px solid rgba(15, 81, 50, 0.05);
-      transition: var(--transition-smooth);
-      position: relative;
-    }
-
-    .flat-search-track:focus-within, .flat-search-track.dragover {
-      border-color: var(--emerald);
-      box-shadow: 0 12px 30px -5px rgba(15, 81, 50, 0.08);
-      background: white;
-    }
-
-    .flat-search-track form {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-    }
-
-    .flat-search-track .track-icon {
-      color: var(--slate);
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-    
-    .flat-search-track:focus-within .track-icon, .flat-search-track.dragover .track-icon {
-      color: var(--emerald);
-    }
-
-    .flat-search-track input[type="text"] {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-size: 0.9rem;
-      color: var(--ink);
-      font-family: var(--font-display);
-      background: transparent;
-      width: 100%;
-    }
-
-    .flat-search-track input::placeholder {
-      color: #94a3b8;
-    }
-
-    /* Ultra Slim Button */
-    .flat-action-btn {
-      background-color: var(--ink);
-      color: white;
-      border: none;
-      height: 36px;
-      padding: 0 1.2rem;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      transition: var(--transition-smooth);
-      flex-shrink: 0;
-    }
-
-    .flat-action-btn:hover {
-      background-color: var(--emerald);
-    }
-
-    /* Inline Drop-Target Styling Overrides */
-    .flat-drop-zone-trigger {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-
-    .drop-zone-text-wrapper {
-      font-size: 0.9rem;
-      color: #94a3b8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex: 1;
-      text-align: left;
-    }
-
-    .flat-search-track.has-file .drop-zone-text-wrapper {
-      color: var(--emerald);
-      font-weight: 500;
-    }
-
-    .file-input-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-
-    /* Small Inline Text-Clear Cross */
-    .inline-badge-clear {
-      background: none;
-      border: none;
-      color: var(--slate);
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.85rem;
-      padding: 0 0.5rem;
-      display: none;
-    }
-    .inline-badge-clear:hover { color: #dc2626; }
-    /* --- END SEARCH MODULES --- */
-
-    /* Curated Section Architecture */
-    .content-container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 3rem 2rem 5rem;
-    }
-
-    .navigation-capsule-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 4rem;
-    }
-
-    .navigation-capsule {
-      display: flex;
-      background-color: white;
-      padding: 0.4rem;
-      border-radius: var(--radius-pill);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-      border: 1px solid rgba(0,0,0,0.02);
-      gap: 0.25rem;
-    }
-
-    .capsule-btn {
-      background: none;
-      border: none;
-      padding: 0.85rem 1.75rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--slate);
-      cursor: pointer;
-      border-radius: var(--radius-pill);
-      transition: var(--transition-smooth);
-    }
-
-    .capsule-btn.active {
-      color: white;
-      background-color: var(--emerald);
-      box-shadow: 0 8px 20px rgba(15, 81, 50, 0.15);
-    }
-
-    .architectural-section {
-      display: none;
-      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .architectural-section.active-section {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-manifesto {
-      font-size: 1.1rem;
-      color: var(--slate);
-      max-width: 650px;
-      margin-bottom: 3rem;
-      line-height: 1.7;
-    }
-
-    /* Soft Contour Property Presentation Display */
-    .fluid-layout-grid {
-      display: grid;
-      gap: 3rem;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    }
-
-    @media (max-width: 500px) {
-      .fluid-layout-grid { grid-template-columns: 1fr; }
-    }
-
-    .canvas-card {
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-    }
-
-    .canvas-card-viewframe {
-      width: 100%;
-      height: 380px;
-      border-radius: var(--radius-card);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-      position: relative;
-      box-shadow: 0 15px 35px rgba(11, 15, 25, 0.03);
-      transition: var(--transition-smooth);
-    }
-
-    .canvas-card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: var(--transition-smooth);
-    }
-
-    .canvas-card:hover .canvas-card-viewframe {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-atmosphere);
-    }
-
-    .canvas-card:hover .canvas-card-img {
-      transform: scale(1.04);
-    }
-
-    .canvas-card-details {
-      padding: 0 0.5rem;
-    }
-
-    .canvas-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.5rem;
-    }
-
-    .canvas-card-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-    }
-
-    .canvas-card-price {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--emerald);
-    }
-
-    .canvas-card-description {
-      color: var(--slate);
-      font-size: 0.98rem;
-      line-height: 1.5;
-    }
-
-    .context-pill {
-      position: absolute;
-      top: 1.25rem;
-      left: 1.25rem;
-      background: white;
-      padding: 0.4rem 1rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    footer {
-      text-align: center;
-      padding: 5rem 2rem 4rem;
-      color: var(--slate);
-      font-size: 0.9rem;
-      border-top: 1px solid var(--sage-light);
-      margin-top: 8rem;
+  <style>
+    body {
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
-<body>
+<body class="bg-sage-50 text-basalt-950 dark:bg-basalt-950 dark:text-basalt-100 min-h-screen flex flex-col font-sans transition-colors duration-500">
 
-  <header class="navbar">
-    <a href="/" class="logo">✦ Hybrid Homes</a>
-    <ul class="nav-links">
-      <li><a href="/" class="nav-link active">Explore Architecture</a></li>
-      <li><a href="/create_post" class="nav-link nav-cta" id="sellerCtaLink" onclick="handleSellerRedirect(event)">Become a Seller</a></li>
-      <li class="profile-nav-item">
-        <button class="profile-btn" id="profileButton" onclick="handleProfileClick(event)">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-          </svg>
-        </button>
-        <div class="profile-dropdown" id="profileDropdown">
-          <p class="dropdown-name" id="dropdownFullName">Loading Identity...</p>
-          <p class="dropdown-username" id="dropdownUsername">@username</p>
-          <hr class="dropdown-divider">
-          <a href="/logout" class="dropdown-logout" onclick="executeLogout(event)">Sign Out</a>
+  <header class="sticky top-0 w-full z-40 bg-sage-50/80 dark:bg-basalt-950/80 backdrop-blur-xl border-b border-basalt-900/5 dark:border-white/5 transition-colors duration-500">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 group">
+        <span class="w-10 h-10 rounded-full bg-emerald-900 dark:bg-emerald-500 flex items-center justify-center text-white transition-all duration-300 group-hover:scale-105 group-hover:rotate-12 shadow-md">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+        </span>
+        <div class="flex flex-col">
+          <span class="font-bold text-lg tracking-tight text-basalt-950 dark:text-white flex items-center gap-1">
+            Hybrid Homes
+          </span>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">Architectural Canvas</span>
         </div>
-      </li>
-    </ul>
+      </a>
+
+      <ul class="flex items-center gap-6 list-none">
+        <li>
+          <a href="/" class="hidden md:inline-block text-xs font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-400 transition-colors">
+            Explore Architecture
+          </a>
+        </li>
+        <li>
+          <a href="/create_post" class="px-4 py-2 bg-basalt-950 dark:bg-white text-white dark:text-basalt-950 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-emerald-900 dark:hover:bg-emerald-500 dark:hover:text-basalt-950 transition-all shadow-sm" id="sellerCtaLink" onclick="handleSellerRedirect(event)">
+            Become a Seller
+          </a>
+        </li>
+        
+        <li>
+          <button onclick="toggleDarkMode()" class="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all" title="Toggle System Theme">
+            <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
+          </button>
+        </li>
+
+        <li class="relative">
+          <button class="w-10 h-10 rounded-full bg-white dark:bg-basalt-900 border border-slate-200 dark:border-basalt-800 flex items-center justify-center text-slate-600 dark:text-slate-300 shadow-sm transition-transform hover:scale-105" id="profileButton" onclick="handleProfileClick(event)">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </button>
+          <div class="hidden absolute right-0 top-14 bg-white dark:bg-basalt-900 rounded-2xl p-5 shadow-atmosphere dark:shadow-atmosphere-dark min-w-[240px] z-50 border border-slate-100 dark:border-basalt-850" id="profileDropdown">
+            <p class="font-bold text-xs text-basalt-950 dark:text-white" id="dropdownFullName">Loading Identity...</p>
+            <p class="text-[11px] text-slate-400 dark:text-slate-500 mb-3" id="dropdownUsername">@username</p>
+            <hr class="border-slate-100 dark:border-basalt-800 mb-3">
+            <a href="/logout" class="text-xs font-bold text-red-600 hover:text-red-500 uppercase tracking-wider" onclick="executeLogout(event)">Sign Out</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </header>
 
-  <main>
-    <section class="hero-canvas">
-      <h1>Diverse Property Models. One Seamless Interface.</h1>
-      <p>We bridge the gap between different property frameworks on a single platform. Finding the right fit is now intuitive.</p>
+  <main class="flex-grow w-full">
+    
+    <section class="relative py-20 px-6 text-center max-w-4xl mx-auto space-y-6">
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-basalt-950 dark:text-white font-display leading-tight">
+        Trending Architectural Models. <br><span class="text-emerald-900 dark:text-emerald-400">Real-Time Engagement.</span>
+      </h1>
+      <p class="text-sm md:text-base text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light">
+        Explore our community's most highly-sought property configurations and system layouts based on interactive tracking profiles.
+      </p>
 
-      <!-- --- PARALLEL FLATTENED SIDE-BY-SIDE SEARCH INTERFACE --- -->
-      <div class="search-suite-layout">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto pt-6 text-left">
         
-        <!-- Field 1: Linear Text Input -->
-        <div class="flat-search-track">
-          <div class="track-icon">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </div>
-          <form id="standaloneTextSearchForm" onsubmit="executeTextQuery(event)">
-            <input type="text" id="standaloneTextQueryInput" placeholder="Search keyword, style, or city...">
-            <button type="submit" class="flat-action-btn">Search</button>
+        <div class="bg-white dark:bg-basalt-900 rounded-full h-14 pl-5 pr-2 border border-slate-200/60 dark:border-basalt-800 flex items-center gap-3 shadow-sm focus-within:border-emerald-500 transition-all">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 shrink-0"></i>
+          <form id="standaloneTextSearchForm" onsubmit="executeTextQuery(event)" class="flex w-full items-center h-full">
+            <input type="text" id="standaloneTextQueryInput" placeholder="Search keyword, style, or city..." class="w-full bg-transparent border-none outline-none text-xs md:text-sm text-basalt-950 dark:text-white placeholder-slate-400">
+            <button type="submit" class="px-4 h-9 bg-basalt-950 dark:bg-emerald-500 text-white dark:text-basalt-950 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-emerald-900 dark:hover:bg-emerald-600 transition-colors shrink-0">
+              Search
+            </button>
           </form>
         </div>
 
-        <!-- Field 2: Linear Drag/Upload Row -->
-        <div class="flat-search-track" id="visionDropTrack">
-          <div class="track-icon">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          </div>
-          <div class="flat-drop-zone-trigger" onclick="triggerHiddenFileInput()">
-            <div class="drop-zone-text-wrapper" id="dropZoneText">
+        <div id="visionDropTrack" class="bg-white dark:bg-basalt-900 rounded-full h-14 pl-5 pr-2 border border-slate-200/60 dark:border-basalt-800 flex items-center justify-between gap-3 shadow-sm focus-within:border-emerald-500 transition-all relative">
+          <div class="flex items-center gap-3 overflow-hidden w-full h-full" onclick="triggerHiddenFileInput()">
+            <i data-lucide="image" class="w-4 h-4 text-slate-400 shrink-0"></i>
+            <div id="dropZoneText" class="text-xs md:text-sm text-slate-400 font-light whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer select-none">
               Drag layout image here or browse...
             </div>
-            <button type="button" class="inline-badge-clear" id="visionClearBtn" onclick="clearAttachedVisionFile(event)">✕</button>
-            <button type="button" class="flat-action-btn" id="visionSubmitBtn" onclick="executeImageVisionScan(event)">Scan Image</button>
           </div>
-          <input type="file" id="hiddenVisionInput" class="file-input-hidden" accept="image/*" onchange="handleVisionFileSelection(event)">
+          
+          <div class="flex items-center gap-1 shrink-0">
+            <button type="button" id="visionClearBtn" onclick="clearAttachedVisionFile(event)" class="hidden p-2 text-slate-400 hover:text-red-500 text-xs">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <button type="button" id="visionSubmitBtn" onclick="executeImageVisionScan(event)" class="px-4 h-9 bg-basalt-950 dark:bg-basalt-800 text-white rounded-full text-xs font-bold uppercase tracking-wider hover:bg-emerald-900 transition-colors">
+              Scan Image
+            </button>
+          </div>
+          
+          <input type="file" id="hiddenVisionInput" class="hidden" accept="image/*" onchange="handleVisionFileSelection(event)">
         </div>
 
       </div>
-      <!-- --- END SEARCH TRACKS --- -->
     </section>
 
-    <div class="content-container">
-      <div class="navigation-capsule-wrapper">
-        <div class="navigation-capsule">
-          <button class="capsule-btn active" onclick="switchSystemTab(event, 'realestate')">Purchasing & Leasing</button>
-          <button class="capsule-btn" onclick="switchSystemTab(event, 'trybeforebuy')">Try Before You Buy</button>
-          <button class="capsule-btn" onclick="switchSystemTab(event, 'shortterm')">Short-Term Stays</button>
-          <button class="capsule-btn" onclick="switchSystemTab(event, 'events')">Event Venues</button>
-        </div>
-      </div>
-
-      <!-- Tab: Purchasing -->
-      <div id="section-realestate" class="architectural-section active-section">
-        <p class="section-manifesto">Permanent living paradigms. High-efficiency modular luxury assemblies mapped for permanent structural legacy deployment or standard multi-year portfolio leasing arrangements.</p>
-        <div class="fluid-layout-grid">
-          <div class="canvas-card">
-            <div class="canvas-card-viewframe">
-              <span class="context-pill">Available for Purchase</span>
-              <img src="https://www.stillwaterdwellings.com/wp-content/uploads/2024/02/The-Modern-Marvel-of-Luxury-Modular-Homes-Ohio.jpg" alt="The Lumina Estate" class="canvas-card-img">
+    <div class="max-w-7xl mx-auto px-6 pb-24 space-y-8">
+      <p class="text-xs md:text-sm uppercase tracking-widest text-slate-400 dark:text-slate-500 font-bold border-b border-slate-100 dark:border-basalt-900 pb-4">
+        Curated Collection / High-Efficiency Frameworks
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for home in popular_homes %}
+        <a href="/home/{{ home.address_line1 | lower | replace(' ', '-') }}/{{ home.id }}" class="group flex flex-col space-y-4">
+          
+          <div class="w-full h-72 rounded-[24px] overflow-hidden relative shadow-sm group-hover:shadow-atmosphere dark:group-hover:shadow-atmosphere-dark transition-all duration-500 bg-slate-900">
+            <span class="absolute top-4 left-4 z-10 bg-white/90 dark:bg-basalt-900/90 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-emerald-950 dark:text-emerald-400 border border-white/20 shadow-sm">
+              Trending Framework
+            </span>
+            <img src="{{ home.image_url if home.image_url else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="{{ home.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          </div>
+          
+          <div class="px-1 space-y-2">
+            <div class="flex justify-between items-start gap-4">
+              <h3 class="font-bold text-lg text-basalt-950 dark:text-white tracking-tight group-hover:text-emerald-900 dark:group-hover:text-emerald-400 transition-colors line-clamp-1">
+                {{ home.title }}
+              </h3>
+              <span class="text-base font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0">
+                ${{ "{:,}".format(home.price) if home.price else "TBD" }}
+              </span>
             </div>
-            <div class="canvas-card-details">
-              <div class="canvas-card-header">
-                <h3 class="canvas-card-title">The Lumina Framework</h3>
-                <span class="canvas-card-price">$640,000</span>
-              </div>
-              <p class="canvas-card-description">Panoramic structural glass modules matching carbon-neutral composite envelopes with open, dynamic atmospheric living profiles.</p>
+            
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-light line-clamp-2 leading-relaxed">
+              {{ home.description | truncate(120) if home.description else "No description available." }}
+            </p>
+            
+            <div class="flex items-center gap-4 text-[11px] font-medium text-slate-400 dark:text-slate-500 pt-1">
+              <span class="flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-600"></i>
+                {{ home.address_line1 }}
+              </span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                {{ home.views }} views
+              </span>
             </div>
           </div>
-
-          <div class="canvas-card">
-            <div class="canvas-card-viewframe">
-              <span class="context-pill">Long-Term Lease</span>
-              <img src="https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg" alt="Nordic Pavilion" class="canvas-card-img">
-            </div>
-            <div class="canvas-card-details">
-              <div class="canvas-card-header">
-                <h3 class="canvas-card-title">Nordic Pavilion v2</h3>
-                <span class="canvas-card-price">$4,200/mo</span>
-              </div>
-              <p class="canvas-card-description">Blackened timber minimalist footprints balancing hyper-insulated thermal structural boundaries with a raw, tactile organic material landscape.</p>
-            </div>
-          </div>
+        </a>
+        {% else %}
+        <div class="col-span-full py-16 text-center border border-dashed border-slate-200 dark:border-basalt-800 rounded-[24px]">
+          <i data-lucide="box" class="w-8 h-8 text-slate-300 mx-auto mb-2"></i>
+          <p class="text-xs text-slate-400 dark:text-slate-500">No modular architectural structures found matching current system view queues.</p>
         </div>
+        {% endfor %}
       </div>
-
-      <!-- Tab: Try Before Buy -->
-      <div id="section-trybeforebuy" class="architectural-section">
-        <p class="section-manifesto">Mitigate integration risk. Transition seamlessly by reserving short exploratory micro-residencies inside active structural layouts to evaluate off-grid efficiency setups live.</p>
-        <div class="fluid-layout-grid">
-          <div class="canvas-card">
-            <div class="canvas-card-viewframe">
-              <span class="context-pill">Experimental Residency</span>
-              <img src="https://www.stillwaterdwellings.com/wp-content/uploads/2024/02/The-Modern-Marvel-of-Luxury-Modular-Homes-Ohio.jpg" alt="Lumina Live Experiment" class="canvas-card-img">
-            </div>
-            <div class="canvas-card-details">
-              <div class="canvas-card-header">
-                <h3 class="canvas-card-title">The Lumina Trial Experience</h3>
-                <span class="canvas-card-price">$250/night</span>
-              </div>
-              <p class="canvas-card-description">Live inside the architecture for up to 30 days. Interact directly with custom automated internal environmental controls and layout systems.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tab: Short Term -->
-      <div id="section-shortterm" class="architectural-section">
-        <p class="section-manifesto">Temporary spatial exploration. Immerse your schedule inside custom off-grid luxury eco-pavilions arranged for architectural travel and environmental retreat.</p>
-        <div class="fluid-layout-grid">
-          <div class="canvas-card">
-            <div class="canvas-card-viewframe">
-              <span class="context-pill">Short Term Rental</span>
-              <img src="https://static.wixstatic.com/media/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg/v1/fill/w_1000,h_746,al_c,q_85,usm_0.66_1.00_0.01/75aa7f_31eae29286674d1ba5cf049e0bc54559~mv2.jpg" alt="The Meridian Oasis" class="canvas-card-img">
-            </div>
-            <div class="canvas-card-details">
-              <div class="canvas-card-header">
-                <h3 class="canvas-card-title">The Meridian Oasis</h3>
-                <span class="canvas-card-price">$310/night</span>
-              </div>
-              <p class="canvas-card-description">An interior sanctuary combining high-efficiency structural frameworks with warm, minimal custom wood installations.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tab: Events -->
-      <div id="section-events" class="architectural-section">
-        <p class="section-manifesto">Expansive structural canvases optimized for high-profile summits, commercial brand curation projects, and open ecosystem workshops.</p>
-        <div class="fluid-layout-grid">
-          <div class="canvas-card">
-            <div class="canvas-card-viewframe">
-              <span class="context-pill">Commercial Booking</span>
-              <img src="https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg" alt="The Nexus Pavilion" class="canvas-card-img">
-            </div>
-            <div class="canvas-card-details">
-              <div class="canvas-card-header">
-                <h3 class="canvas-card-title">The Nexus Open Arena</h3>
-                <span class="canvas-card-price">$1,200/day</span>
-              </div>
-              <p class="canvas-card-description">Hyper-configurable floorplans matching adaptable acoustic wall arrays with macro architectural skylight zones.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </main>
 
-  <footer>
+  <footer class="w-full border-t border-slate-100 dark:border-basalt-900 py-10 px-6 text-center text-xs text-slate-400 dark:text-slate-500">
     <p>&copy; 2026 Hybrid Homes Architectural Systems. Clean Design Blueprint.</p>
   </footer>
 
   <script>
+    // Initialize Vector Graphics Core Engine
+    lucide.createIcons();
+
     let identityCache = { logged_in: false };
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Identity System Fetch Hook
+      // Identity core verification framework mapping
       fetch('/api/auth-status')
         .then(res => res.json())
         .then(data => {
           identityCache = data;
           if (data.logged_in) {
-            document.getElementById('profileButton').style.borderColor = 'var(--emerald)';
+            document.getElementById('profileButton').classList.add('border-emerald-500');
             document.getElementById('dropdownFullName').textContent = `${data.first_name} ${data.last_name}`;
             document.getElementById('dropdownUsername').textContent = `@${data.username}`;
           }
         })
         .catch(err => console.error("Identity core network offline:", err));
 
-      // Global Dropdown dismiss
+      // Global window monitoring framework for dropdown toggles
       window.addEventListener('click', (e) => {
         const dropdown = document.getElementById('profileDropdown');
         const profileBtn = document.getElementById('profileButton');
-        if (!profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
-          dropdown.style.display = 'none';
+        if (dropdown && profileBtn && !profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.add('hidden');
         }
       });
 
-      // --- DRAG & DROP FOR FLAT ROW ---
+      // Drag and Drop Layout Operations Wrapper
       const dropTrack = document.getElementById('visionDropTrack');
+      if(dropTrack) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropTrack.addEventListener(eventName, (e) => {
+            e.preventDefault(); e.stopPropagation();
+            dropTrack.classList.add('border-emerald-500', 'bg-emerald-50/10');
+          }, false);
+        });
 
-      ['dragenter', 'dragover'].forEach(eventName => {
-        dropTrack.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropTrack.classList.add('dragover');
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropTrack.addEventListener(eventName, (e) => {
+            e.preventDefault(); e.stopPropagation();
+            dropTrack.classList.remove('border-emerald-500', 'bg-emerald-50/10');
+          }, false);
+        });
+
+        dropTrack.addEventListener('drop', (e) => {
+          const dropFiles = e.dataTransfer.files;
+          const hiddenInput = document.getElementById('hiddenVisionInput');
+          if (dropFiles.length && hiddenInput) {
+            hiddenInput.files = dropFiles;
+            renderAttachedFileState(dropFiles[0].name);
+          }
         }, false);
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        dropTrack.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropTrack.classList.remove('dragover');
-        }, false);
-      });
-
-      dropTrack.addEventListener('drop', (e) => {
-        const dropFiles = e.dataTransfer.files;
-        const hiddenInput = document.getElementById('hiddenVisionInput');
-        if (dropFiles.length) {
-          hiddenInput.files = dropFiles;
-          renderAttachedFileState(dropFiles[0].name);
-        }
-      }, false);
+      }
     });
 
+    // Theme Engine Management Framework
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      updateThemeIcon(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      updateThemeIcon(false);
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        lucide.createIcons();
+      }
+    }
+
     function handleProfileClick(event) {
-      event.preventDefault();
-      event.stopPropagation();
+      event.preventDefault(); event.stopPropagation();
       if (identityCache.logged_in) {
         const dropdown = document.getElementById('profileDropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        dropdown.classList.toggle('hidden');
       } else {
         window.location.href = '/signup?next=' + encodeURIComponent(window.location.pathname);
       }
@@ -732,31 +311,19 @@
       fetch('/logout', { method: 'GET' }).then(() => { window.location.href = '/'; });
     }
 
-    function switchSystemTab(event, mode) {
-      document.querySelectorAll('.capsule-btn').forEach(btn => btn.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-      document.querySelectorAll('.architectural-section').forEach(sec => sec.classList.remove('active-section'));
-      document.getElementById('section-' + mode).classList.add('active-section');
-    }
-
-    // --- SEARCH EXECUTION PIPELINES ---
     function executeTextQuery(event) {
       event.preventDefault();
       const textVal = document.getElementById('standaloneTextQueryInput').value.trim();
-      if (textVal) {
-        window.location.href = `/search?q=${encodeURIComponent(textVal)}`;
-      }
+      if (textVal) { window.location.href = `/search?q=${encodeURIComponent(textVal)}`; }
     }
 
-    function triggerHiddenFileInput() {
-      document.getElementById('hiddenVisionInput').click();
+    function triggerHiddenFileInput() { 
+      document.getElementById('hiddenVisionInput').click(); 
     }
 
     function handleVisionFileSelection(event) {
       const selected = event.target.files;
-      if (selected && selected[0]) {
-        renderAttachedFileState(selected[0].name);
-      }
+      if (selected && selected[0]) { renderAttachedFileState(selected[0].name); }
     }
 
     function renderAttachedFileState(filename) {
@@ -765,11 +332,15 @@
       const clearBtn = document.getElementById('visionClearBtn');
       const submitBtn = document.getElementById('visionSubmitBtn');
       
-      track.classList.add('has-file');
-      label.textContent = `Attached: ${filename}`;
-      clearBtn.style.display = 'block';
-      submitBtn.textContent = "Run Scan";
-      submitBtn.style.backgroundColor = 'var(--emerald)';
+      if(track && label && clearBtn && submitBtn) {
+        track.classList.add('border-emerald-500');
+        label.textContent = `Attached: ${filename}`;
+        label.classList.remove('text-slate-400');
+        label.classList.add('text-emerald-600', 'dark:text-emerald-400', 'font-medium');
+        clearBtn.classList.remove('hidden');
+        submitBtn.textContent = "Run Scan";
+        submitBtn.className = "px-4 h-9 bg-emerald-900 dark:bg-emerald-500 text-white dark:text-basalt-950 rounded-full text-xs font-bold uppercase tracking-wider transition-colors";
+      }
     }
 
     function clearAttachedVisionFile(event) {
@@ -780,21 +351,25 @@
       const clearBtn = document.getElementById('visionClearBtn');
       const submitBtn = document.getElementById('visionSubmitBtn');
       
-      input.value = '';
-      track.classList.remove('has-file');
-      label.textContent = "Drag layout image here or browse...";
-      clearBtn.style.display = 'none';
-      submitBtn.textContent = "Scan Image";
-      submitBtn.style.backgroundColor = 'var(--ink)';
+      if(input) input.value = '';
+      if(track && label && clearBtn && submitBtn) {
+        track.classList.remove('border-emerald-500');
+        label.textContent = "Drag layout image here or browse...";
+        label.classList.remove('text-emerald-600', 'dark:text-emerald-400', 'font-medium');
+        label.classList.add('text-slate-400');
+        clearBtn.classList.add('hidden');
+        submitBtn.textContent = "Scan Image";
+        submitBtn.className = "px-4 h-9 bg-basalt-950 dark:bg-basalt-800 text-white rounded-full text-xs font-bold uppercase tracking-wider hover:bg-emerald-900 transition-colors";
+      }
     }
 
     function executeImageVisionScan(event) {
       event.stopPropagation(); 
       const visualFile = document.getElementById('hiddenVisionInput').files[0];
-      if (visualFile) {
-        alert(`Parsing asset image: ${visualFile.name}`);
-      } else {
-        triggerHiddenFileInput();
+      if (visualFile) { 
+        alert(`Parsing asset image: ${visualFile.name}`); 
+      } else { 
+        triggerHiddenFileInput(); 
       }
     }
   </script>
