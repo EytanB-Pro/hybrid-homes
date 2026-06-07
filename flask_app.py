@@ -1,8 +1,8 @@
 import os
-from meilisearch.errors import MeilisearchApiError
 from flask import Flask, request, render_template, jsonify, session, url_for, abort
 from datetime import datetime, timedelta
-import meilisearch 
+import meilisearch
+from meilisearch.errors import MeilisearchApiError
 from databases.config import DevConfig
 from databases.user_rdb import db, User, Post
 from werkzeug.utils import redirect, secure_filename
