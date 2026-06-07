@@ -1,0 +1,29 @@
+{
+    "username": "Eytan_Pro",
+    "id": "97b8dae7-643b-4dd3-82ce-2d847c28ab1a",
+    "address_line1": "5030 Rosewood Ave",
+    "address_line2": "",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zip_code": "90004",
+    "price": 10000000.0,
+    "square_footage": 6000,
+    "num_bedrooms": 5,
+    "num_bathrooms": 4.0,
+    "year_built": 2020,
+    "property_type": "House",
+    "listing_type": "For Rent",
+    "description": "Modern home filled with all the home appliances and furniture one could think of.",
+    "images": [
+        "7c7e2553-a13f-43c7-a6a5-2b095227d9a8_Screenshot_2026-05-24_at_7.57.22_AM.png",
+        "37ae3727-1c1a-4f36-804e-d48f18fe46a7_Screenshot_2026-05-24_at_7.57.28_AM.png",
+        "5538e92b-d37b-4623-9091-786f27170836_Screenshot_2026-05-24_at_7.57.34_AM.png",
+        "a7a7e445-78d9-4030-a19a-d3f874142423_Screenshot_2026-05-24_at_7.57.40_AM.png",
+        "17c93869-1d8a-42eb-976d-3d5e60d9ad96_Screenshot_2026-05-24_at_7.57.48_AM.png",
+        "e542b59b-537c-494c-bbe8-25b9ea1a4035_Screenshot_2026-05-24_at_7.57.55_AM.png",
+        "6f112fba-d5b7-48cb-8d45-6ea530b2265e_Screenshot_2026-05-24_at_7.58.01_AM.png",
+        "90fa50bf-8ab6-4b36-8f94-176f661c30db_Screenshot_2026-05-24_at_7.58.07_AM.png",
+        "5741a4e9-3069-4193-9253-9a4c96dc7e99_Screenshot_2026-05-24_at_7.58.15_AM.png"
+    ],
+    "views": 2
+}
