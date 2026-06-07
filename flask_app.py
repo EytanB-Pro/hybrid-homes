@@ -1,3 +1,4 @@
+import glob
 import os
 from flask import Flask, request, render_template, jsonify, session, url_for, abort
 from datetime import datetime, timedelta
@@ -99,9 +100,27 @@ def view_home(address_line1, post_id):
 def profile_page(username):
     return render_template("profile.html", username=username)                   
 
+
+def load_home_listings():
+    listings = []
+    try:
+        for path in glob.glob(os.path.join(DATA_DIR, "home_*.json")):
+            with open(path, "r") as f:
+                data = json.load(f)
+            if isinstance(data, dict):
+                data.setdefault("views", 0)
+                data.setdefault("description", "")
+                data.setdefault("images", [])
+                listings.append(data)
+    except Exception:
+        listings = []
+
+    return sorted(listings, key=lambda home: home.get("views", 0), reverse=True)
+
 @app.route("/", methods=["GET"])
 def home_page():
-    return render_template("home_page.html")
+    popular_homes = load_home_listings()
+    return render_template("home_page.html", popular_homes=popular_homes)
 
 @app.route("/signin", methods=["GET"])
 def signin_page():
