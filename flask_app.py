@@ -11,30 +11,41 @@ from sqlalchemy.exc import IntegrityError
 import json
 import uuid
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 app = Flask(__name__, template_folder="html_templates")
 app.config.from_object(DevConfig)
 
-
-app.config['SECRET_KEY'] = 'Will be replaced with a secure key in production' 
-
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or os.getenv('FLASK_SECRET_KEY') or os.urandom(24).hex()
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+
+if os.getenv('DATABASE_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
 
 db.init_app(app)
 
-UPLOAD_FOLDER = 'static/uploads'
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'static/uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-
-client = meilisearch.Client("http://127.0.0.1:7700")
-
-DATA_DIR = "seller_homes"  
+MEILISEARCH_URL = os.getenv("MEILISEARCH_URL")
+DATA_DIR = os.getenv("DATA_DIR", "seller_homes")
 INDEX_NAME = "real_estate_listings"
 
-try:
-    index = client.get_index(INDEX_NAME)
-except MeilisearchApiError:
-    index = client.create_index(INDEX_NAME, {"primaryKey": "id"})
+client = None
+index = None
+
+if MEILISEARCH_URL:
+    client = meilisearch.Client(MEILISEARCH_URL)
+    try:
+        index = client.get_index(INDEX_NAME)
+    except MeilisearchApiError:
+        index = client.create_index(INDEX_NAME, {"primaryKey": "id"})
 
 
 
@@ -94,7 +105,7 @@ def view_home(address_line1, post_id):
             self.__dict__ = d
 
     home_object = ObjectView(home_data)
-    return render_template('post_page1.html', home=home_object)
+    return render_template('post_page.html', home=home_object)
                            
 @app.route("/profile/<username>", methods=["GET"])
 def profile_page(username):
@@ -565,6 +576,82 @@ def show_index():
 def delete_index():
     client.delete_index(INDEX_NAME)
     return {"message": "Index deleted successfully"}
+
+@app.route("/api/calculate_mortgage", methods=["POST"])
+def api_calculate_mortgage():
+    data = request.get_json() or {}
+    
+    try:
+        home_price = float(data.get("home_price", 0))
+        credit_score = int(data.get("credit_score", 750))
+        down_payment = float(data.get("down_payment", 0))
+        term_years = int(data.get("term_years", 30))
+    except (ValueError, TypeError):
+        return jsonify({"error": "Invalid numerical types supplied."}), 400
+
+    # 1. Enforce Minimum Down Payment Rule Based on Credit Score
+    if credit_score >= 680:
+        min_down_pct = 0.03
+    elif 620 <= credit_score < 680:
+        min_down_pct = 0.05
+    else:
+        min_down_pct = 0.10
+        
+    min_required_down = home_price * min_down_pct
+    if down_payment < min_required_down:
+        return jsonify({
+            "validation_error": f"Down payment of ${down_payment:,.2f} is too low. "
+                                f"For a credit score of {credit_score}, a minimum down payment of "
+                                f"{min_down_pct*100:.0f}% (${min_required_down:,.2f}) is required."
+        }), 400
+        
+    # 2. Determine Base Interest Rate Adjustments & PMI Rates
+    if credit_score >= 760:
+        base_rate = 0.0620
+        pmi_factor = 0.0030
+    elif 700 <= credit_score < 760:
+        base_rate = 0.0650
+        pmi_factor = 0.0050
+    elif 640 <= credit_score < 700:
+        base_rate = 0.0700
+        pmi_factor = 0.0085
+    else:
+        base_rate = 0.0780
+        pmi_factor = 0.0110
+
+    if term_years == 15:
+        base_rate -= 0.0075  
+    elif term_years != 30:
+        return jsonify({"error": "Term must be either 15 or 30 years."}), 400
+
+    # 3. Calculate Loan Details
+    principal = home_price - down_payment
+    down_payment_pct = down_payment / home_price
+    
+    monthly_rate = base_rate / 12
+    total_months = term_years * 12
+    
+    # Amortization Formula Execution
+    if monthly_rate > 0:
+        p_and_i = principal * (monthly_rate * (1 + monthly_rate) ** total_months) / ((1 + monthly_rate) ** total_months - 1)
+    else:
+        p_and_i = principal / total_months
+    
+    # 4. Calculate Private Mortgage Insurance (PMI)
+    if down_payment_pct < 0.20:
+        monthly_pmi = (principal * pmi_factor) / 12
+    else:
+        monthly_pmi = 0.0
+        
+    total_monthly_payment = p_and_i + monthly_pmi
+
+    # Return structured calculations back to the layout
+    return jsonify({
+        "interest_rate_percentage": round(base_rate * 100, 3),
+        "monthly_principal_and_interest": round(p_and_i, 2),
+        "monthly_pmi": round(monthly_pmi, 2),
+        "total_estimated_initial_monthly": round(total_monthly_payment, 2)
+    }), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

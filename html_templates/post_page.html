@@ -74,7 +74,7 @@
       border-radius: var(--radius-card);
       overflow: hidden;
       box-shadow: var(--shadow-atmosphere);
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
 
     @media (max-width: 768px) {
@@ -103,6 +103,131 @@
       height: 100%;
       object-fit: cover;
       background-color: var(--sage-light);
+    }
+
+    /* Continuous Mortgage Calculator Under Images */
+    .mortgage-anchor-banner {
+      background: white;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      box-shadow: var(--shadow-atmosphere);
+      margin-bottom: 3rem;
+    }
+
+    .banner-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .calculator-inline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+    }
+
+    .inputs-column {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 992px) {
+      .calculator-inline-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .inputs-column {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate);
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--canvas);
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--emerald);
+      background: white;
+    }
+
+    .validation-err-text {
+      color: #b91c1c;
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+      display: none;
+      grid-column: 1 / -1;
+      line-height: 1.4;
+    }
+
+    /* Horizontal Data Table Output Alignment */
+    .calc-results-output {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      align-items: center;
+      background: var(--sage-light);
+      padding: 1.25rem;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .calc-results-output {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+    }
+
+    .result-node {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .result-node span:first-child {
+      font-size: 0.75rem;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.25rem;
+    }
+
+    .result-node span:last-child {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .result-node.total-node span:last-child {
+      color: var(--emerald);
+      font-size: 1.35rem;
     }
 
     /* Architectural Information Splitting Layout */
@@ -297,6 +422,54 @@
       </div>
     </div>
 
+    <div class="mortgage-anchor-banner">
+      <div class="banner-title">Real-Time Estimations</div>
+      <div class="calculator-inline-grid">
+        
+        <div class="inputs-column">
+          <div class="form-group">
+            <label for="creditScore">Credit Score</label>
+            <input type="number" id="creditScore" value="750" min="580" max="850">
+          </div>
+
+          <div class="form-group">
+            <label for="downPayment">Down Payment ($)</label>
+            <input type="number" id="downPayment" value="{{ (home.price * 0.2)|int }}" min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="termYears">Loan Term</label>
+            <select id="termYears">
+              <option value="30" selected>30-Year Fixed</option>
+              <option value="15">15-Year Fixed</option>
+            </select>
+          </div>
+          
+          <div class="validation-err-text" id="downPaymentError"></div>
+        </div>
+
+        <div class="calc-results-output">
+          <div class="result-node">
+            <span>Interest Rate</span>
+            <span id="resRate">--</span>
+          </div>
+          <div class="result-node">
+            <span>Principal & Int.</span>
+            <span id="resPI">--</span>
+          </div>
+          <div class="result-node">
+            <span>Monthly PMI</span>
+            <span id="resPMI">--</span>
+          </div>
+          <div class="result-node total-node">
+            <span>Total Monthly Est</span>
+            <span id="resTotal">--</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <div class="details-split-layout">
       
       <div class="narrative-column">
@@ -318,38 +491,38 @@
           </div>
           <div class="spec-item-node">
             <span class="spec-label">Bathrooms</span>
-            <span class="spec-value">{{ home.num_bathrooms | replace('.0', '') }}</span>
+            <span class="spec-value">{{ home.num_bathrooms }}</span>
           </div>
           <div class="spec-item-node">
-            <span class="spec-label">Square Feet</span>
-            <span class="spec-value">{{ "{:,}".format(home.square_footage) if home.square_footage else "—" }}</span>
+            <span class="spec-label">Square Footage</span>
+            <span class="spec-value">{{ home.square_footage }} sqft</span>
           </div>
           <div class="spec-item-node">
-            <span class="spec-label">Built</span>
-            <span class="spec-value">{{ home.year_built if home.year_built else "Modern" }}</span>
+            <span class="spec-label">Year Built</span>
+            <span class="spec-value">{{ home.year_built if home.year_built else 'N/A' }}</span>
           </div>
         </div>
 
         <div class="narrative-block">
-          <h3>Architectural Concept & Features</h3>
+          <h3>About this home</h3>
           <p class="narrative-text">{{ home.description }}</p>
         </div>
       </div>
 
       <div class="transaction-sidebar">
         <div class="transaction-sticky-panel">
-          <h2 class="panel-price-headline">${{ "{:,}".format(home.price) if home.price else "TBD" }}</h2>
-          <p class="panel-price-subtext">Estimated tracking appraisal value</p>
+          <div class="panel-price-headline">${{ "{:,.2f}".format(home.price) }}</div>
+          <div class="panel-price-subtext">Verified Market Value</div>
           
-          <button class="panel-action-btn" onclick="initiateInquiry()">Inquire About Framework</button>
-          
+          <a href="#" class="panel-action-btn">Inquire About Purchase</a>
+
           <div class="identity-attribution-row">
             <div class="avatar-placeholder">
-              {{ home.username[0] | upper if home.username else "H" }}
+              {{ home.username[0]|upper if home.username else 'H' }}
             </div>
             <div class="identity-meta-info">
-              <p style="font-weight: 600; color: var(--ink);">Listed by @{{ home.username }}</p>
-              <p style="color: var(--slate); font-size: 0.8rem;">Verified Architectural Seller</p>
+              <p style="font-weight: 700; color: var(--ink);">Listed by @{{ home.username }}</p>
+              <p style="color: var(--slate);">Property Owner Verification Signed</p>
             </div>
           </div>
         </div>
@@ -359,8 +532,76 @@
   </main>
 
   <script>
-    function initiateInquiry() {
-      alert("Inquiry message pipeline routing soon. Asset validation ID: {{ home.id }}");
+    const HOME_PRICE = parseFloat("{{ home.price }}");
+    
+    // UI input component hooks
+    const creditInput = document.getElementById('creditScore');
+    const downInput = document.getElementById('downPayment');
+    const termSelect = document.getElementById('termYears');
+    const downError = document.getElementById('downPaymentError');
+
+    // UI evaluation table display strings
+    const resRate = document.getElementById('resRate');
+    const resPI = document.getElementById('resPI');
+    const resPMI = document.getElementById('resPMI');
+    const resTotal = document.getElementById('resTotal');
+
+    // Handle listener configurations
+    [creditInput, downInput, termSelect].forEach(element => {
+      element.addEventListener('input', fetchMortgageCalculations);
+    });
+
+    // Auto-trigger calculation execution on initial template load
+    document.addEventListener('DOMContentLoaded', fetchMortgageCalculations);
+
+    async function fetchMortgageCalculations() {
+      const payload = {
+        home_price: HOME_PRICE,
+        credit_score: parseInt(creditInput.value) || 0,
+        down_payment: parseFloat(downInput.value) || 0,
+        term_years: parseInt(termSelect.value)
+      };
+
+      try {
+        const response = await fetch('/api/calculate_mortgage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          if (result.validation_error) {
+            downError.textContent = result.validation_error;
+            downError.style.display = 'block';
+          }
+          clearDisplayFields();
+          return;
+        }
+
+        // Wipe warning states when data matches schema logic rules
+        downError.style.display = 'none';
+
+        // Render response metrics to the row fields
+        resRate.textContent = `${result.interest_rate_percentage.toFixed(3)}%`;
+        resPI.textContent = `$${result.monthly_principal_and_interest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        resPMI.textContent = `$${result.monthly_pmi.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        resTotal.textContent = `$${result.total_estimated_initial_monthly.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+      } catch (err) {
+        console.error("Critical error reaching backend math processing pipeline:", err);
+        clearDisplayFields();
+      }
+    }
+
+    function clearDisplayFields() {
+      resRate.textContent = '--';
+      resPI.textContent = '--';
+      resPMI.textContent = '--';
+      resTotal.textContent = '--';
     }
   </script>
 </body>
