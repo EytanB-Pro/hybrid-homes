@@ -4,525 +4,253 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ home.title if home.title else home.address_line1 }} | Hybrid Homes</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&family=Playfair+Display:ital,wght=0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            emerald: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              800: '#065f46',
+              900: '#0f5132', // Classic Brand Emerald
+            },
+            basalt: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#0b0f19', // Deep Ink
+            },
+            sage: {
+              50: '#f4f7f5',
+              100: '#eef5f1',
+              200: '#dce8e1',
+              300: '#c2d5cb'
+            }
+          },
+          borderRadius: {
+            'organic': '24px',
+          },
+          boxShadow: {
+            'atmosphere': '0 20px 40px -10px rgba(11, 15, 25, 0.06), 0 8px 20px -6px rgba(11, 15, 25, 0.03)',
+            'atmosphere-dark': '0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 8px 20px -6px rgba(0, 0, 0, 0.3)',
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    /* Premium Architectural Tokens - Organic Light Theme */
-    :root {
-      --emerald: #0f5132;
-      --sage-light: #f4f7f5;
-      --canvas: #fafbfc;
-      --ink: #0b0f19;
-      --slate: #525866;
-      --glass-border: rgba(15, 81, 50, 0.08);
-      
-      --font-display: 'Inter', system-ui, -apple-system, sans-serif;
-      
-      --radius-organic: 24px;
-      --radius-pill: 9999px;
-      --radius-card: 16px;
-      
-      --shadow-atmosphere: 0 20px 40px -10px rgba(11, 15, 25, 0.06), 0 8px 20px -6px rgba(11, 15, 25, 0.03);
-      --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      background-color: var(--canvas);
-      color: var(--ink);
-      font-family: var(--font-display);
-      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-    }
-
-    /* Seamless Navigation */
-    header.navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.75rem 3rem;
-      position: absolute;
-      width: 100%;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    /* Main Showcase Canvas */
-    .property-canvas {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 7rem 2rem 5rem;
-    }
-
-    /* Asymmetric Visual Media Grid */
-    .media-showcase-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1rem;
-      height: 550px;
-      border-radius: var(--radius-card);
-      overflow: hidden;
-      box-shadow: var(--shadow-atmosphere);
-      margin-bottom: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .media-showcase-grid {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-      .secondary-media-stack { display: none; }
-    }
-
-    .primary-image-frame {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background-color: var(--sage-light);
-    }
-
-    .secondary-media-stack {
-      display: grid;
-      grid-template-rows: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .stacked-image-frame {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background-color: var(--sage-light);
-    }
-
-    /* Continuous Mortgage Calculator Under Images */
-    .mortgage-anchor-banner {
-      background: white;
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-card);
-      padding: 2rem;
-      box-shadow: var(--shadow-atmosphere);
-      margin-bottom: 3rem;
-    }
-
-    .banner-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      color: var(--ink);
-      letter-spacing: -0.02em;
-    }
-
-    .calculator-inline-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 3rem;
-    }
-
-    .inputs-column {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 992px) {
-      .calculator-inline-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .inputs-column {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--slate);
-      margin-bottom: 0.4rem;
-      font-weight: 600;
-    }
-
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 0.65rem 0.75rem;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      font-family: var(--font-display);
-      font-size: 0.95rem;
-      color: var(--ink);
-      background: var(--canvas);
-    }
-
-    .form-group input:focus, .form-group select:focus {
-      outline: none;
-      border-color: var(--emerald);
-      background: white;
-    }
-
-    .validation-err-text {
-      color: #b91c1c;
-      font-size: 0.8rem;
-      margin-top: 0.4rem;
-      display: none;
-      grid-column: 1 / -1;
-      line-height: 1.4;
-    }
-
-    /* Horizontal Data Table Output Alignment */
-    .calc-results-output {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      align-items: center;
-      background: var(--sage-light);
-      padding: 1.25rem;
-      border-radius: 12px;
-    }
-
-    @media (max-width: 640px) {
-      .calc-results-output {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
-      }
-    }
-
-    .result-node {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .result-node span:first-child {
-      font-size: 0.75rem;
-      color: var(--slate);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      margin-bottom: 0.25rem;
-    }
-
-    .result-node span:last-child {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .result-node.total-node span:last-child {
-      color: var(--emerald);
-      font-size: 1.35rem;
-    }
-
-    /* Architectural Information Splitting Layout */
-    .details-split-layout {
-      display: grid;
-      grid-template-columns: 1.6fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    @media (max-width: 992px) {
-      .details-split-layout {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-    }
-
-    /* Left Block: Narrative Content */
-    .meta-context-strip {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      align-items: center;
-    }
-
-    .context-pill {
-      background: var(--sage-light);
-      color: var(--emerald);
-      padding: 0.35rem 1rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .view-count-badge {
-      font-size: 0.85rem;
-      color: var(--slate);
-    }
-
-    .main-headline {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-    }
-
-    .location-subtitle {
-      font-size: 1.1rem;
-      color: var(--slate);
-      margin-bottom: 2.5rem;
-    }
-
-    /* Core Structural Specs Matrix */
-    .structural-specs-matrix {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      padding: 1.5rem 0;
-      border-top: 1px solid var(--sage-light);
-      border-bottom: 1px solid var(--sage-light);
-      margin-bottom: 2.5rem;
-    }
-
-    @media (max-width: 576px) {
-      .structural-specs-matrix {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
-    }
-
-    .spec-item-node {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .spec-label {
-      font-size: 0.8rem;
-      color: var(--slate);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.25rem;
-    }
-
-    .spec-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .narrative-block h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .narrative-text {
-      color: var(--slate);
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    /* Right Block: Transaction Execution Panel */
-    .transaction-sticky-panel {
-      background: white;
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-card);
-      padding: 2rem;
-      box-shadow: var(--shadow-atmosphere);
-      position: sticky;
-      top: 30px;
-    }
-
-    .panel-price-headline {
-      font-size: 2.25rem;
-      font-weight: 800;
-      color: var(--ink);
-      letter-spacing: -0.02em;
-      margin-bottom: 0.25rem;
-    }
-
-    .panel-price-subtext {
-      font-size: 0.9rem;
-      color: var(--slate);
-      margin-bottom: 1.5rem;
-    }
-
-    .panel-action-btn {
-      width: 100%;
-      background: var(--ink);
-      color: white;
-      border: none;
-      padding: 1rem;
-      border-radius: var(--radius-pill);
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      text-align: center;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 1.5rem;
-    }
-
-    .panel-action-btn:hover {
-      background: var(--emerald);
-    }
-
-    .identity-attribution-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--sage-light);
-    }
-
-    .avatar-placeholder {
-      width: 40px;
-      height: 40px;
-      background: var(--sage-light);
-      color: var(--emerald);
-      border-radius: var(--radius-pill);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .identity-meta-info p {
-      font-size: 0.88rem;
-      line-height: 1.3;
+      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
-<body>
+<body class="bg-sage-50 text-basalt-950 dark:bg-basalt-950 dark:text-basalt-100 min-h-screen flex flex-col font-sans transition-colors duration-500">
 
-  <header class="navbar">
-    <a href="/" class="logo">✦ Hybrid Homes</a>
+  <header class="sticky top-0 w-full z-40 bg-sage-50/80 dark:bg-basalt-950/80 backdrop-blur-xl border-b border-basalt-900/5 dark:border-white/5 transition-colors duration-500">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 group">
+        <span class="w-10 h-10 rounded-full bg-emerald-900 dark:bg-emerald-500 flex items-center justify-center text-white transition-all duration-300 group-hover:scale-105 group-hover:rotate-12 shadow-md">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+        </span>
+        <div class="flex flex-col">
+          <span class="font-bold text-lg tracking-tight text-basalt-950 dark:text-white flex items-center gap-1">
+            Hybrid Homes
+          </span>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">Architectural Canvas</span>
+        </div>
+      </a>
+
+      <ul class="flex items-center gap-6 list-none">
+        <li>
+          <a href="/" class="hidden md:inline-block text-xs font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-400 transition-colors">
+            Explore Architecture
+          </a>
+        </li>
+        <li>
+          <a href="/create_post" class="px-4 py-2 bg-basalt-950 dark:bg-white text-white dark:text-basalt-950 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-emerald-900 dark:hover:bg-emerald-500 dark:hover:text-basalt-950 transition-all shadow-sm" id="sellerCtaLink" onclick="handleSellerRedirect(event)">
+            Become a Seller
+          </a>
+        </li>
+        
+        <li>
+          <button onclick="toggleDarkMode()" class="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all" title="Toggle System Theme">
+            <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
+          </button>
+        </li>
+
+        <li class="relative">
+          <button class="w-10 h-10 rounded-full bg-white dark:bg-basalt-900 border border-slate-200 dark:border-basalt-800 flex items-center justify-center text-slate-600 dark:text-slate-300 shadow-sm transition-transform hover:scale-105" id="profileButton" onclick="handleProfileClick(event)">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </button>
+          <div class="hidden absolute right-0 top-14 bg-white dark:bg-basalt-900 rounded-2xl p-5 shadow-atmosphere dark:shadow-atmosphere-dark min-w-[240px] z-50 border border-slate-100 dark:border-basalt-850" id="profileDropdown">
+            <p class="font-bold text-xs text-basalt-950 dark:text-white" id="dropdownFullName">Loading Identity...</p>
+            <p class="text-[11px] text-slate-400 dark:text-slate-500 mb-3" id="dropdownUsername">@username</p>
+            <hr class="border-slate-100 dark:border-basalt-800 mb-3">
+            <a href="/logout" class="text-xs font-bold text-red-600 hover:text-red-500 uppercase tracking-wider" onclick="executeLogout(event)">Sign Out</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </header>
 
-  <main class="property-canvas">
+  <main class="flex-grow w-full max-w-7xl mx-auto px-6 py-12">
     
-    <div class="media-showcase-grid">
-      <img src="{{ '/static/uploads/' ~ home.images[0] if home.images and home.images[0] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Primary view" class="primary-image-frame">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto md:h-[550px] rounded-[24px] overflow-hidden shadow-atmosphere dark:shadow-atmosphere-dark mb-8">
+      <img src="{{ '/static/uploads/' ~ home.images[0] if home.images and home.images[0] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Primary view" class="md:col-span-2 w-full h-full object-cover bg-sage-100 dark:bg-basalt-900">
       
-      <div class="secondary-media-stack">
-        <img src="{{ '/static/uploads/' ~ home.images[1] if home.images and home.images[1] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Secondary view" class="stacked-image-frame">
-        <img src="{{ '/static/uploads/' ~ home.images[2] if home.images and home.images[2] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Detail view" class="stacked-image-frame">
+      <div class="hidden md:grid grid-rows-2 gap-4 h-full">
+        <img src="{{ '/static/uploads/' ~ home.images[1] if home.images and home.images[1] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Secondary view" class="w-full h-full object-cover bg-sage-100 dark:bg-basalt-900">
+        <img src="{{ '/static/uploads/' ~ home.images[2] if home.images and home.images[2] else 'https://images.dwell.com/photos-6063391372700811264/6133436310494187520-large/prefab-stockholm-studio.jpg' }}" alt="Detail view" class="w-full h-full object-cover bg-sage-100 dark:bg-basalt-900">
       </div>
     </div>
 
-    <div class="mortgage-anchor-banner">
-      <div class="banner-title">Real-Time Estimations</div>
-      <div class="calculator-inline-grid">
+    <div class="bg-white dark:bg-basalt-900 border border-slate-200/60 dark:border-basalt-800/80 rounded-[24px] p-6 md:p-8 shadow-atmosphere dark:shadow-atmosphere-dark mb-12">
+      <div class="text-lg font-bold tracking-tight font-display mb-5 text-basalt-950 dark:text-white flex items-center gap-2">
+        <i data-lucide="calculator" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i> Real-Time Estimations
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
-        <div class="inputs-column">
-          <div class="form-group">
-            <label for="creditScore">Credit Score</label>
-            <input type="number" id="creditScore" value="750" min="580" max="850">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="creditScore">Credit Score</label>
+            <input type="number" id="creditScore" value="750" min="580" max="850" class="w-full h-10 px-3 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
           </div>
 
-          <div class="form-group">
-            <label for="downPayment">Down Payment ($)</label>
-            <input type="number" id="downPayment" value="{{ (home.price * 0.2)|int }}" min="0">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="downPayment">Down Payment ($)</label>
+            <input type="number" id="downPayment" value="{{ (home.price * 0.2)|int }}" min="0" class="w-full h-10 px-3 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
           </div>
 
-          <div class="form-group">
-            <label for="termYears">Loan Term</label>
-            <select id="termYears">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="termYears">Loan Term</label>
+            <select id="termYears" class="w-full h-10 px-3 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors cursor-pointer">
               <option value="30" selected>30-Year Fixed</option>
               <option value="15">15-Year Fixed</option>
             </select>
           </div>
           
-          <div class="validation-err-text" id="downPaymentError"></div>
+          <div class="hidden col-span-full text-xs text-red-600 font-medium mt-1" id="downPaymentError"></div>
         </div>
 
-        <div class="calc-results-output">
-          <div class="result-node">
-            <span>Interest Rate</span>
-            <span id="resRate">--</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-sage-50 dark:bg-basalt-950 p-4 md:p-5 rounded-2xl border border-slate-100 dark:border-basalt-850">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-1">Int. Rate</span>
+            <span id="resRate" class="text-sm md:text-base font-bold text-basalt-950 dark:text-white">--</span>
           </div>
-          <div class="result-node">
-            <span>Principal & Int.</span>
-            <span id="resPI">--</span>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-1">Principal & Int.</span>
+            <span id="resPI" class="text-sm md:text-base font-bold text-basalt-950 dark:text-white">--</span>
           </div>
-          <div class="result-node">
-            <span>Monthly PMI</span>
-            <span id="resPMI">--</span>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-1">Monthly PMI</span>
+            <span id="resPMI" class="text-sm md:text-base font-bold text-basalt-950 dark:text-white">--</span>
           </div>
-          <div class="result-node total-node">
-            <span>Total Monthly Est</span>
-            <span id="resTotal">--</span>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-1">Total Monthly</span>
+            <span id="resTotal" class="text-sm md:text-base font-extrabold text-emerald-600 dark:text-emerald-400">--</span>
           </div>
         </div>
 
       </div>
     </div>
 
-    <div class="details-split-layout">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
       
-      <div class="narrative-column">
-        <div class="meta-context-strip">
-          <span class="context-pill">{{ home.property_type }}</span>
-          <span class="context-pill">{{ home.listing_type }}</span>
-          <span class="view-count-badge">👁️ {{ home.views }} views</span>
+      <div class="lg:col-span-2 space-y-6">
+        <div class="flex flex-wrap gap-2 items-center">
+          <span class="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-400 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full border border-emerald-500/10">
+            {{ home.property_type }}
+          </span>
+          <span class="bg-slate-100 dark:bg-basalt-850 text-slate-600 dark:text-slate-400 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full border border-slate-200/20">
+            {{ home.listing_type }}
+          </span>
+          <span class="text-xs text-slate-400 dark:text-slate-500 ml-2 flex items-center gap-1 font-medium">
+            <i data-lucide="eye" class="w-3.5 h-3.5"></i> {{ home.views }} views
+          </span>
         </div>
 
-        <h1 class="main-headline">{{ home.address_line1 }}</h1>
-        <p class="location-subtitle">
-          {% if home.address_line2 %}{{ home.address_line2 }}, {% endif %}{{ home.city }}, {{ home.state }} {{ home.zip_code }}
-        </p>
+        <div class="space-y-1">
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-basalt-950 dark:text-white font-display">
+            {{ home.address_line1 }}
+          </h1>
+          <p class="text-base text-slate-500 dark:text-slate-400 font-light flex items-center gap-1.5">
+            <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            {% if home.address_line2 %}{{ home.address_line2 }}, {% endif %}{{ home.city }}, {{ home.state }} {{ home.zip_code }}
+          </p>
+        </div>
 
-        <div class="structural-specs-matrix">
-          <div class="spec-item-node">
-            <span class="spec-label">Bedrooms</span>
-            <span class="spec-value">{{ home.num_bedrooms }}</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-6 border-y border-slate-200/60 dark:border-basalt-850">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-0.5">Bedrooms</span>
+            <span class="text-lg font-bold text-basalt-950 dark:text-white flex items-center gap-1.5">
+              <i data-lucide="bed" class="w-4 h-4 text-slate-400"></i> {{ home.num_bedrooms }}
+            </span>
           </div>
-          <div class="spec-item-node">
-            <span class="spec-label">Bathrooms</span>
-            <span class="spec-value">{{ home.num_bathrooms }}</span>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-0.5">Bathrooms</span>
+            <span class="text-lg font-bold text-basalt-950 dark:text-white flex items-center gap-1.5">
+              <i data-lucide="bath" class="w-4 h-4 text-slate-400"></i> {{ home.num_bathrooms }}
+            </span>
           </div>
-          <div class="spec-item-node">
-            <span class="spec-label">Square Footage</span>
-            <span class="spec-value">{{ home.square_footage }} sqft</span>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-0.5">Square Footage</span>
+            <span class="text-lg font-bold text-basalt-950 dark:text-white flex items-center gap-1.5">
+              <i data-lucide="maximize" class="w-4 h-4 text-slate-400"></i> {{ home.square_footage }} <span class="text-xs text-slate-400 font-normal">sqft</span>
+            </span>
           </div>
-          <div class="spec-item-node">
-            <span class="spec-label">Year Built</span>
-            <span class="spec-value">{{ home.year_built if home.year_built else 'N/A' }}</span>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mb-0.5">Year Built</span>
+            <span class="text-lg font-bold text-basalt-950 dark:text-white flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i> {{ home.year_built if home.year_built else 'N/A' }}
+            </span>
           </div>
         </div>
 
-        <div class="narrative-block">
-          <h3>About this home</h3>
-          <p class="narrative-text">{{ home.description }}</p>
+        <div class="space-y-3">
+          <h3 class="text-lg font-bold text-basalt-950 dark:text-white font-display">About this home</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base font-light leading-relaxed">
+            {{ home.description }}
+          </p>
         </div>
       </div>
 
-      <div class="transaction-sidebar">
-        <div class="transaction-sticky-panel">
-          <div class="panel-price-headline">${{ "{:,.2f}".format(home.price) }}</div>
-          <div class="panel-price-subtext">Verified Market Value</div>
+      <div class="lg:sticky lg:top-24 space-y-6">
+        <div class="bg-white dark:bg-basalt-900 border border-slate-200/60 dark:border-basalt-800/80 rounded-[24px] p-6 shadow-atmosphere dark:shadow-atmosphere-dark">
+          <div class="text-3xl font-extrabold text-basalt-950 dark:text-white tracking-tight mb-0.5 font-display">
+            ${{ "{:,.2f}".format(home.price) }}
+          </div>
+          <div class="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-widest mb-6">
+            Verified Market Value
+          </div>
           
-          <a href="#" class="panel-action-btn">Inquire About Purchase</a>
+          <a href="#" class="flex items-center justify-center w-full h-12 bg-basalt-950 dark:bg-white text-white dark:text-basalt-950 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-emerald-900 dark:hover:bg-emerald-500 transition-all shadow-sm mb-6">
+            Inquire About Purchase
+          </a>
 
-          <div class="identity-attribution-row">
-            <div class="avatar-placeholder">
+          <div class="flex items-center gap-3 pt-5 border-t border-slate-100 dark:border-basalt-850">
+            <div class="w-10 h-10 bg-sage-100 dark:bg-basalt-950 text-emerald-900 dark:text-emerald-400 rounded-full flex items-center justify-center font-bold text-sm border border-slate-200/40 dark:border-basalt-800 shadow-inner">
               {{ home.username[0]|upper if home.username else 'H' }}
             </div>
-            <div class="identity-meta-info">
-              <p style="font-weight: 700; color: var(--ink);">Listed by @{{ home.username }}</p>
-              <p style="color: var(--slate);">Property Owner Verification Signed</p>
+            <div class="flex flex-col">
+              <p class="text-xs font-bold text-basalt-950 dark:text-white">Listed by @{{ home.username }}</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500 font-light">Property Owner Verification Signed</p>
             </div>
           </div>
         </div>
@@ -531,27 +259,103 @@
     </div>
   </main>
 
+  <footer class="w-full border-t border-slate-100 dark:border-basalt-900 py-10 px-6 text-center text-xs text-slate-400 dark:text-slate-500">
+    <p>&copy; 2026 Hybrid Homes Architectural Systems. Clean Design Blueprint.</p>
+  </footer>
+
   <script>
+    lucide.createIcons();
+
+    let identityCache = { logged_in: false };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Identity core verification framework mapping
+      fetch('/api/auth-status')
+        .then(res => res.json())
+        .then(data => {
+          identityCache = data;
+          if (data.logged_in) {
+            const profBtn = document.getElementById('profileButton');
+            const fullNm = document.getElementById('dropdownFullName');
+            const usrNm = document.getElementById('dropdownUsername');
+            
+            if(profBtn) profBtn.classList.add('border-emerald-500');
+            if(fullNm) fullNm.textContent = `${data.first_name} ${data.last_name}`;
+            if(usrNm) usrNm.textContent = `@${data.username}`;
+          }
+        })
+        .catch(err => console.error("Identity core network offline:", err));
+
+      // Global window monitoring framework for dropdown toggles
+      window.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('profileDropdown');
+        const profileBtn = document.getElementById('profileButton');
+        if (dropdown && profileBtn && !profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
+    });
+
+    // Theme Engine Management Framework
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      updateThemeIcon(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      updateThemeIcon(false);
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        lucide.createIcons();
+      }
+    }
+
+    function handleProfileClick(event) {
+      event.preventDefault(); event.stopPropagation();
+      if (identityCache.logged_in) {
+        const dropdown = document.getElementById('profileDropdown');
+        if(dropdown) dropdown.classList.toggle('hidden');
+      } else {
+        window.location.href = '/signup?next=' + encodeURIComponent(window.location.pathname);
+      }
+    }
+
+    function handleSellerRedirect(event) {
+      event.preventDefault();
+      window.location.href = identityCache.logged_in ? '/create_post' : '/signup?next=' + encodeURIComponent('/create_post');
+    }
+
+    function executeLogout(event) {
+      event.preventDefault();
+      fetch('/logout', { method: 'GET' }).then(() => { window.location.href = '/'; });
+    }
+
+    // Mortgage calculator script routines
     const HOME_PRICE = parseFloat("{{ home.price }}");
     
-    // UI input component hooks
     const creditInput = document.getElementById('creditScore');
     const downInput = document.getElementById('downPayment');
     const termSelect = document.getElementById('termYears');
     const downError = document.getElementById('downPaymentError');
 
-    // UI evaluation table display strings
     const resRate = document.getElementById('resRate');
     const resPI = document.getElementById('resPI');
     const resPMI = document.getElementById('resPMI');
     const resTotal = document.getElementById('resTotal');
 
-    // Handle listener configurations
     [creditInput, downInput, termSelect].forEach(element => {
       element.addEventListener('input', fetchMortgageCalculations);
     });
 
-    // Auto-trigger calculation execution on initial template load
     document.addEventListener('DOMContentLoaded', fetchMortgageCalculations);
 
     async function fetchMortgageCalculations() {
@@ -582,10 +386,8 @@
           return;
         }
 
-        // Wipe warning states when data matches schema logic rules
         downError.style.display = 'none';
 
-        // Render response metrics to the row fields
         resRate.textContent = `${result.interest_rate_percentage.toFixed(3)}%`;
         resPI.textContent = `$${result.monthly_principal_and_interest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         resPMI.textContent = `$${result.monthly_pmi.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;

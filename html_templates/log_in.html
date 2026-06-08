@@ -1,154 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Homes - Sign Up</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    
-    <style>
-        /* Centering the registration card perfectly on the screen */
-        .auth-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 160px);
-            padding: 2rem 1rem;
-        }
-        .auth-card {
-            width: 100%;
-            max-width: 500px;
-        }
-        .hidden {
-            display: none;
-        }
-        /* Style for the footer switch link inside the card */
-        .auth-footer-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-    </style>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Hybrid Homes</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&family=Playfair+Display:ital,wght=0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <header class="navbar">
-        <div class="logo">
-            🌱 <span>HYBRID-HOMES</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="/signup" class="nav-link active">Sign Up</a></li>
-            <li><a href="/signin" class="nav-link">Sign In</a></li>
-        </ul>
-    </header>
-
-    <div class="container auth-wrapper">
-        <div class="card auth-card">
-            <h2 class="card-title">Create Account</h2>
-            <p>Please fill out the form below to register your account.</p>
-
-            <div id="errorAlert" class="alert alert-danger hidden"></div>
-            <div id="successAlert" class="alert hidden"></div>
-
-            <form id="signupForm" action="/signup" method="POST">
-                
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0;">
-                    <div class="form-group">
-                        <label class="form-label" for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="John" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Doe" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="johndoe123" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="dob">Date of Birth (optional)</label>
-                    <input type="date" id="dob" name="dob" class="form-control">
-                </div>
-
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                    Register Account
-                </button>
-
-                <div class="auth-footer-link">
-                    Already have an account? <a href="/signin">Sign in here</a>.
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Hybrid Homes Project. All rights reserved.</p>
-    </footer>
-
-    <script>
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const errorAlert = document.getElementById('errorAlert');
-            const successAlert = document.getElementById('successAlert');
-            const form = e.target;
-
-            // Clear previous alerts
-            errorAlert.classList.add('hidden');
-            errorAlert.innerText = '';
-            successAlert.classList.add('hidden');
-            successAlert.innerText = '';
-
-            // Construct payload dynamically from inputs
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-            try {
-                // Post to your active Flask endpoint using JSON parsing format
-                const response = await fetch('/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.error || 'An unexpected error occurred.');
-                }
-
-                // Success visual change
-                successAlert.innerText = `${result.message}! (User ID: ${result.user_id})`;
-                successAlert.classList.remove('hidden');
-                successAlert.classList.add('alert-success');
-                form.reset(); // Clear form fields
-
-            } catch (err) {
-                // Populate error banner
-                errorAlert.innerText = err.message;
-                errorAlert.classList.remove('hidden');
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            emerald: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              800: '#065f46',
+              900: '#0f5132', // Classic Brand Emerald
+            },
+            basalt: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#0b0f19', // Deep Ink
+            },
+            sage: {
+              50: '#f4f7f5',
+              100: '#eef5f1',
+              200: '#dce8e1',
+              300: '#c2d5cb'
             }
+          },
+          borderRadius: {
+            'organic': '24px',
+          },
+          boxShadow: {
+            'atmosphere': '0 20px 40px -10px rgba(11, 15, 25, 0.06), 0 8px 20px -6px rgba(11, 15, 25, 0.03)',
+            'atmosphere-dark': '0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 8px 20px -6px rgba(0, 0, 0, 0.3)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    /* Simple reset for native datepicker calendar text inversion in dark mode */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      @apply dark:invert;
+    }
+  </style>
+</head>
+<body class="bg-sage-50 text-basalt-950 dark:bg-basalt-950 dark:text-basalt-100 min-h-screen flex flex-col font-sans transition-colors duration-500">
+
+  <!-- GLOBAL NAV HEADER -->
+  <header class="sticky top-0 w-full z-40 bg-sage-50/80 dark:bg-basalt-950/80 backdrop-blur-xl border-b border-basalt-900/5 dark:border-white/5 transition-colors duration-500">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 group">
+        <span class="w-10 h-10 rounded-full bg-emerald-900 dark:bg-emerald-500 flex items-center justify-center text-white transition-all duration-300 group-hover:scale-105 group-hover:rotate-12 shadow-md">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+        </span>
+        <div class="flex flex-col">
+          <span class="font-bold text-lg tracking-tight text-basalt-950 dark:text-white flex items-center gap-1">
+            Hybrid Homes
+          </span>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">Architectural Canvas</span>
+        </div>
+      </a>
+
+      <ul class="flex items-center gap-6 list-none">
+        <li>
+          <a href="/" class="hidden md:inline-block text-xs font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-400 transition-colors">
+            Explore Architecture
+          </a>
+        </li>
+        <li>
+          <a href="/signup" class="text-xs font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-400 border-b-2 border-emerald-900 dark:border-emerald-400 pb-1">
+            Sign Up
+          </a>
+        </li>
+        <li>
+          <a href="/signin" class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">
+            Sign In
+          </a>
+        </li>
+        
+        <li>
+          <button onclick="toggleDarkMode()" class="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all" title="Toggle System Theme">
+            <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- REGISTRATION CONTENT MOUNT WRAPPER -->
+  <main class="flex-grow w-full max-w-7xl mx-auto px-6 flex items-center justify-center py-16">
+    <div class="w-full max-w-lg bg-white dark:bg-basalt-900 border border-slate-200/60 dark:border-basalt-800/80 rounded-[24px] p-8 md:p-10 shadow-atmosphere dark:shadow-atmosphere-dark">
+      
+      <div class="mb-8">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-basalt-950 dark:text-white font-display mb-1.5">
+          Create Account
+        </h2>
+        <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-light">
+          Please fill out the form below to register your structural profile account.
+        </p>
+      </div>
+
+      <!-- DYNAMIC STATE ALERTS -->
+      <div id="errorAlert" class="hidden p-4 mb-4 text-xs font-semibold bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 rounded-xl border border-red-500/10 flex items-center gap-2">
+        <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+        <span id="errorAlertText"></span>
+      </div>
+      
+      <div id="successAlert" class="hidden p-4 mb-4 text-xs font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400 rounded-xl border border-emerald-500/10 flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4 shrink-0"></i>
+        <span id="successAlertText"></span>
+      </div>
+
+      <form id="signupForm" action="/signup" method="POST" class="space-y-5">
+        
+        <!-- FIRST/LAST NAME SPLIT GRID MODULE -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="first_name">
+              First Name
+            </label>
+            <input type="text" id="first_name" name="first_name" placeholder="John" required 
+              class="w-full h-11 px-4 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
+          </div>
+          
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="last_name">
+              Last Name
+            </label>
+            <input type="text" id="last_name" name="last_name" placeholder="Doe" required 
+              class="w-full h-11 px-4 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="username">
+            Username
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 dark:text-slate-500">
+              <i data-lucide="user" class="w-4 h-4"></i>
+            </span>
+            <input type="text" id="username" name="username" placeholder="johndoe123" required 
+              class="w-full h-11 pl-10 pr-4 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="email">
+            Email Address
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 dark:text-slate-500">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </span>
+            <input type="email" id="email" name="email" placeholder="john@example.com" required 
+              class="w-full h-11 pl-10 pr-4 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="password">
+            Password
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 dark:text-slate-500">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </span>
+            <input type="password" id="password" name="password" placeholder="••••••••" required 
+              class="w-full h-11 pl-10 pr-4 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors">
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider" for="dob">
+            Date of Birth <span class="text-slate-300 dark:text-slate-600 font-normal">(optional)</span>
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 dark:text-slate-500">
+              <i data-lucide="calendar" class="w-4 h-4"></i>
+            </span>
+            <input type="date" id="dob" name="dob" 
+              class="w-full h-11 pl-10 pr-4 bg-slate-50 dark:bg-basalt-950 border border-slate-200 dark:border-basalt-800 rounded-xl text-sm text-basalt-950 dark:text-white outline-none focus:border-emerald-500 transition-colors cursor-pointer">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full h-11 bg-basalt-950 dark:bg-white text-white dark:text-basalt-950 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-emerald-900 dark:hover:bg-emerald-500 transition-all shadow-sm mt-2">
+          Register Account
+        </button>
+
+        <div class="text-center pt-4 border-t border-slate-100 dark:border-basalt-850 text-xs text-slate-500 dark:text-slate-400 font-light">
+          Already have an account? <a href="/signin" class="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">Sign in here</a>.
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="w-full border-t border-slate-100 dark:border-basalt-900 py-10 px-6 text-center text-xs text-slate-400 dark:text-slate-500">
+    <p>&copy; 2026 Hybrid Homes Architectural Systems. Clean Design Blueprint.</p>
+  </footer>
+
+  <!-- CORE SCRIPT INJECTIONS AND PIPELINES -->
+  <script>
+    lucide.createIcons();
+
+    // Theme Engine Management Framework
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      updateThemeIcon(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      updateThemeIcon(false);
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        lucide.createIcons();
+      }
+    }
+
+    // Process asynchronous network mapping for standard sign-up rules
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const errorAlert = document.getElementById('errorAlert');
+      const errorAlertText = document.getElementById('errorAlertText');
+      const successAlert = document.getElementById('successAlert');
+      const successAlertText = document.getElementById('successAlertText');
+      const form = e.target;
+
+      // Clear previous states
+      errorAlert.classList.add('hidden');
+      errorAlertText.innerText = '';
+      successAlert.classList.add('hidden');
+      successAlertText.innerText = '';
+
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      try {
+        const response = await fetch('/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(data)
         });
-    </script>
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'An unexpected error occurred.');
+        }
+
+        successAlertText.innerText = `${result.message}! (User ID: ${result.user_id})`;
+        successAlert.classList.remove('hidden');
+        form.reset();
+
+      } catch (err) {
+        errorAlertText.innerText = err.message;
+        errorAlert.classList.remove('hidden');
+      }
+    });
+  </script>
 </body>
 </html>
