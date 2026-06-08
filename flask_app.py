@@ -572,6 +572,12 @@ def show_index():
     results = index.search("")
     return jsonify(results)
 
+@app.route("/create_index", methods=["POST"])
+def create_index():
+    client.create_index(INDEX_NAME)
+    return {"message": "Index created successfully"}
+
+
 @app.route("/delete_index", methods=["DELETE"])
 def delete_index():
     client.delete_index(INDEX_NAME)
